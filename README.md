@@ -156,6 +156,11 @@ Keybinds (Bindings.xml): Photo mode, Profile of target, Open the journal. New ev
 - Bugs & ideas: [GitHub Issues](https://github.com/LazyLlamaDev/Journeykeeper/issues). Please include your addon version and any Lua error (BugSack/BugGrabber help).
 
 ## FAQ
+**Journeykeeper not showing in the CurseForge app?**
+The CurseForge app doesn't reliably detect the WoW Forever beta client yet. Two easy options:
+- Use the **Wago App** and choose your WoW Forever install.
+- Or install it manually: unzip the download so that **both** the `Journeykeeper` and `Journeykeeper_Vault` folders land in `World of Warcraft\_classic_beta_\Interface\AddOns`.
+
 **Was AI used?** Yes. Journeykeeper is my idea and design: a journal that keeps memories across your characters and years in WoW Forever. I used AI tools to help write code, text and some artwork. I test every feature in-game myself and decide what ships.
 
 ## Upgrading from the "Chronicle" test builds
