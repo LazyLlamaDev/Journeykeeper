@@ -145,7 +145,7 @@ Every module is its own file with its own Settings section and master switch. Al
 Keybinds (Bindings.xml): Photo mode, Profile of target, Open the journal. New events: `photo_taken`, `quest_story`.
 
 ## Community & feedback
-- Discord: [discord.gg/9hC79kBMVu](https://discord.gg/9hC79kBMVu)
+- Discord: [discord.gg/EYEuYJxY4U](https://discord.gg/EYEuYJxY4U)
 - Bugs & ideas: [GitHub Issues](https://github.com/LazyLlamaDev/Journeykeeper/issues). Please include your addon version and any Lua error (BugSack/BugGrabber help).
 
 ## FAQ
