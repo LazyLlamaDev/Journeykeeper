@@ -1,0 +1,7 @@
+## Interface: 16001
+## Title: Journeykeeper Vault
+## Notes: Second, independent backup file for Journeykeeper. Contains no code that runs; keep it enabled.
+## Author: LazyLlama
+## Version: 1.0.0
+## SavedVariables: JourneykeeperVaultDB
+Journeykeeper_Vault.lua

@@ -1,0 +1,2 @@
+-- Intentionally empty: this addon only exists so JourneykeeperVaultDB is written to its own SavedVariables file
+-- (WTF\Account\<acct>\SavedVariables\Journeykeeper_Vault.lua), independent of Journeykeeper.lua.

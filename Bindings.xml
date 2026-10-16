@@ -1,0 +1,14 @@
+<Bindings>
+  <Binding name="JOURNEYKEEPER_PHOTO" header="JOURNEYKEEPER" category="ADDONS">
+    if JourneykeeperAPI then JourneykeeperAPI.Photo.Take() end
+  </Binding>
+  <Binding name="JOURNEYKEEPER_PHOTO_SNAP" category="ADDONS">
+    if JourneykeeperAPI then JourneykeeperAPI.Photo.Snap() end
+  </Binding>
+  <Binding name="JOURNEYKEEPER_PROFILE" category="ADDONS">
+    if JourneykeeperAPI then JourneykeeperAPI.Profiles.Show() end
+  </Binding>
+  <Binding name="JOURNEYKEEPER_JOURNAL" category="ADDONS">
+    if JourneykeeperAPI then JourneykeeperAPI.Journal.Toggle() end
+  </Binding>
+</Bindings>
