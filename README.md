@@ -5,6 +5,18 @@
 
 A WoW Forever beta (Interface 16001, Mainline API) addon written in plain Lua with no libraries. It records your journey and surfaces "echoes" of it. All data stays local; nothing is sent to other players unless you opt into friend sharing.
 
+![Journeykeeper — Echoes of Your Journey](docs/images/00_hero.jpg)
+
+## Screenshots
+
+| | |
+|---|---|
+| <img src="docs/images/01_journal_book.jpg" alt="The journal book"><br><sub>The journal book</sub> | <img src="docs/images/02_echoes_page.jpg" alt="Echoes page with filters"><br><sub>Echoes page with filters</sub> |
+| <img src="docs/images/03_timeline_firsts.jpg" alt="Timeline of your firsts"><br><sub>Timeline of your firsts</sub> | <img src="docs/images/04_echo_toast_durotar.jpg" alt="Echo toast in Durotar"><br><sub>Echo toast in Durotar</sub> |
+| <img src="docs/images/05_echo_toast_brill.jpg" alt="Echo toast in Brill"><br><sub>Echo toast in Brill</sub> | <img src="docs/images/06_world_map_echo.jpg" alt="Echoes on the world map"><br><sub>Echoes on the world map</sub> |
+| <img src="docs/images/07_settings_categories.jpg" alt="Settings categories"><br><sub>Settings categories</sub> | <img src="docs/images/08_data_backups.jpg" alt="Data & Backups"><br><sub>Data & Backups</sub> |
+
+
 ## Commands (v0.3)
 `/jkp` opens the journal. `/jkp config` opens the settings, `/jkp export` opens a plain-text export, `/jkp note <text>` adds a note to your target (or your most recent ally), `/jkp test` shows a test toast, `/jkp unmute` clears every memory you muted, and `/jkp debug` prints echo scores. New in v0.3: `/jkp html` (HTML book of the weightiest memories, in a copyable box), `/jkp pin [#]` (pins the last echoed memory, or entry #), `/jkp arc new <name>` | `add [#]` | `use <n>` | `arc` (list), `/jkp diary`, `/jkp digest`.
 
