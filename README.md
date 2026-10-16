@@ -144,6 +144,10 @@ Every module is its own file with its own Settings section and master switch. Al
 
 Keybinds (Bindings.xml): Photo mode, Profile of target, Open the journal. New events: `photo_taken`, `quest_story`.
 
+## Community & feedback
+- Discord: [discord.gg/9hC79kBMVu](https://discord.gg/9hC79kBMVu)
+- Bugs & ideas: [GitHub Issues](https://github.com/LazyLlamaDev/Journeykeeper/issues). Please include your addon version and any Lua error (BugSack/BugGrabber help).
+
 ## Upgrading from the "Chronicle" test builds
 No public release ever used the old name, so there is no automatic migration. If you have local data from a "Chronicle" test build, keep that old addon enabled for **one** login next to Journeykeeper (it loads first: addons load alphabetically). Journeykeeper then imports `ChronicleDB` once, but only if the data carries this addon's own fingerprint, so data from unrelated addons that use the same name is ignored. The import adds data only, skips duplicates by stable uid, takes a pre-import snapshot, and never changes the old table. Afterwards you can disable or delete the old folder. Old `!CHRONICLE1!` export strings can also still be pasted into `/jkp import`.
 
