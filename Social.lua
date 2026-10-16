@@ -1,5 +1,5 @@
 -- Soft social: private ratings after a group ends. Nothing is sent to anyone.
--- Future: optional opt-in addon-message sharing between friends (not implemented).
+-- Opt-in friend sharing lives in Share.lua / FriendsPage.lua.
 local _, C = ...
 local S = {}; C.Social = S
 local prompt, pendingList

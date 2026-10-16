@@ -7,6 +7,13 @@ A WoW Forever beta (Interface 16001, Mainline API) addon written in plain Lua wi
 
 ![Journeykeeper — Echoes of Your Journey](docs/images/00_hero.jpg)
 
+## 🤝 Friends & Sharing (opt-in, off by default)
+- Share your milestones and firsts (levels, first boss kills, rares, dungeons, epics) with friends you trust, and nobody else.
+- Get a "Two journals, one memory" echo when you and a friend faced the same boss or dungeon on the same day.
+- You decide what to share, whether your zone is included, and who you accept from: trusted friends only, or your friends list or guild too.
+- A Friends & Sharing page lists other Journeykeeper players with Trust, Block and Ping buttons, and anyone you block is ignored.
+- It's quiet and safe: nothing is sent in combat, it never posts in public chat, and nothing is sent at all while it's off.
+
 ## Screenshots
 
 | | |
@@ -37,7 +44,7 @@ Echoes are held back in combat and, if you choose, inside instances (up to 5 wai
 ## v0.3 features (every one can be switched off or tuned in Settings; see docs/SETTINGS.md)
 - **Adaptive weighting** (Weight.lua): a memory's weight = category base + rarity across the account + context (e.g. you died here long ago at a much lower level) + pin boost + reinforcement each time it is echoed or revisited − slow fading of ordinary memories + "remind me more" category boosts + your ally rating.
 - **Warband resonance**: echoes that name your other character, their class and level ("Your Zentala once hunted here..."); warband "family firsts" for rares, bosses and instance clears; an optional ghost trail of your other characters on the world map (sampled positions outside instances, at most 400 dots per map, one colour per character). The map legend in the preview is mock-only.
-- **Soft social**: tooltip lines (times grouped, shared runs, last seen, your rating, your notes); a private Great / Forgettable / Avoid / Skip prompt when a group ends. Nothing is sent to other players. Sharing between friends via addon messages is planned but not built.
+- **Soft social**: tooltip lines (times grouped, shared runs, last seen, your rating, your notes); a private Great / Forgettable / Avoid / Skip prompt when a group ends. Nothing is sent to other players.
 - **Atmosphere**: a vignette for strong echoes, a minimap icon that pulses when there are new echoes (opens the Echo Diary), ambient sounds (chime/parchment/horn, built-in sound kits with numeric fallbacks), and Quiet Mode.
 - **Threads**: chains ("the third time you returned to where you first fell", a homecoming to your first zone after 10+ levels), arcs you create yourself (each gets a chapter in the journal), and a "Since you were last here" digest at login.
 - **Agency**: "Never show this memory again", "Remind me more about <category>", an automatic intensity curve (stricter in raids, instances and sessions over 2 h, looser while resting), and an Echo Diary tab.
