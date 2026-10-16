@@ -20,7 +20,7 @@ end
 local function build()
   prompt = CreateFrame("Frame", "JourneykeeperRatePrompt", UIParent)
   prompt:SetSize(300, 86); prompt:SetPoint("BOTTOMRIGHT", -260, 220); prompt:SetFrameStrata("MEDIUM")
-  local bg = prompt:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetTexture(C.MEDIA .. "toast_parchment"); bg:SetTexCoord(0, 1, 0, 0.67)
+  local bg = prompt:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); C.Theme.Skin(bg, "toast_parchment"); bg:SetTexCoord(0, 1, 0, 0.67)
   local br = prompt:CreateTexture(nil, "OVERLAY"); br:SetAllPoints(); br:SetTexture(C.MEDIA .. "border_ornate")
   prompt.q = prompt:CreateFontString(nil, "OVERLAY", "GameFontNormal"); prompt.q:SetPoint("TOPLEFT", 14, -12); prompt.q:SetWidth(272); prompt.q:SetJustifyH("LEFT")
   prompt.q:SetTextColor(0.35, 0.18, 0.05)

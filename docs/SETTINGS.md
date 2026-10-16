@@ -1,6 +1,6 @@
 # Journeykeeper settings reference
 
-Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated from `Options.lua`.
+Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated from `Options.lua` by `tools/settings_doc.py`.
 
 ## Detail Preset
 
@@ -8,6 +8,12 @@ Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated f
 |---|---|---|---|---|
 | Detail preset | cycle |  | essentials, storyteller, chronicler, custom | essentials = only the big moments, few popups. storyteller = the balanced default. chronicler = record nearly everything, more echoes. Changing any setting yourself switches to 'custom'. Choosing a preset never deletes memories. |
 | Show the preset picker | button |  |  |  |
+
+## Look
+
+| Setting | Type | Default | Range / values | Notes |
+|---|---|---|---|---|
+| Journal layout / theme | cycle | parchment | parchment, classic | parchment = the new aged-parchment pages, cards and popups (default). classic = the look before 0.7.1. Applies instantly; also /jkp layout. |
 
 ## General
 

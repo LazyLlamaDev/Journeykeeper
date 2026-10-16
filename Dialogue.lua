@@ -67,7 +67,7 @@ function DG.ShowParchment()
   if not parch then
     parch = CreateFrame("Frame", "JourneykeeperParchment", UIParent)
     parch:SetSize(380, 470); parch:SetFrameStrata("HIGH"); parch:EnableMouse(true)
-    parch.bg = parch:CreateTexture(nil, "BACKGROUND"); parch.bg:SetAllPoints(); parch.bg:SetTexture(C.MEDIA .. "toast_parchment")
+    parch.bg = parch:CreateTexture(nil, "BACKGROUND"); parch.bg:SetAllPoints(); C.Theme.Skin(parch.bg, "toast_parchment")
     parch.title = parch:CreateFontString(nil, "OVERLAY"); parch.title:SetFont("Fonts\\MORPHEUS.TTF", 22, ""); parch.title:SetPoint("TOP", 0, -26)
     parch.title:SetWidth(320); parch.title:SetTextColor(0.45, 0.1, 0.05)
     parch.body = parch:CreateFontString(nil, "OVERLAY"); parch.body:SetFont("Fonts\\FRIZQT__.TTF", 13, ""); parch.body:SetPoint("TOPLEFT", 30, -66)

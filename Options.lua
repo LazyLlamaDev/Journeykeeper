@@ -8,6 +8,11 @@ C.OPTIONS = {
       apply = function() if C.Presets then C.Presets.Apply(C.set.preset) end end },
     { key = "presetPicker", type = "button", label = "Show the preset picker", run = function() if C.Presets then C.Presets.ShowPicker(true) end end },
   } },
+  { section = "Look", items = {
+    { key = "theme", type = "cycle", label = "Journal layout / theme", values = { "parchment", "classic" }, default = "parchment",
+      help = "parchment = the new aged-parchment pages, cards and popups (default). classic = the look before 0.7.1. Applies instantly; also /jkp layout.",
+      apply = function() if C.Theme then C.Theme.Apply() end end },
+  } },
   { section = "General", items = {
     { key = "intensity", type = "cycle", label = "Echo intensity", values = { "silent", "soft", "present", "storyteller" }, default = "present", help = "How often and how readily echoes appear." },
     { key = "quietMode", type = "toggle", label = "Quiet Mode", default = false, help = "Only the highest-weight memories are shown." },
