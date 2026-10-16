@@ -1,6 +1,6 @@
 # Journeykeeper event catalog
 
-Generated from `tools/catalog.py`. Feasibility is judged against the WoW Forever beta (interface 16001, Midnight-era Mainline API): secret values (health, many combat-log fields during restricted content), protected input and missing transport APIs are treated as blocked. **Impl** = implemented in v1 registry.
+Generated from the addon's event list. Feasibility is judged against the WoW Forever beta (interface 16001, Midnight-era Mainline API): secret values (health, many combat-log fields during restricted content), protected input and missing transport APIs are treated as blocked. **Impl** = implemented in v1 registry.
 
 **127 events**: 77 OK, 44 partial, 6 blocked; 85 implemented.
 

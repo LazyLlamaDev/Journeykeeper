@@ -1,6 +1,6 @@
 # Journeykeeper performance
 
-These are approximations. They come from `tools/bench.py`, which runs the real addon code in a mock WoW API:
+These are approximations. They come from an offline benchmark that runs the real addon code in a mock WoW API:
 - under **Lua 5.1** (lupa), which is the closest to WoW's interpreter
 - under **LuaJIT 2.1**, for comparison
 

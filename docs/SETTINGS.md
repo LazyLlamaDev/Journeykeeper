@@ -1,6 +1,6 @@
 # Journeykeeper settings reference
 
-Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated from `Options.lua` by `tools/settings_doc.py`.
+Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated from `Options.lua`.
 
 ## General
 
