@@ -318,7 +318,7 @@ local function makePage(x)
   p.crest = p:CreateTexture(nil, "ARTWORK", nil, 1); p.crest:SetSize(62, 62); p.crest:SetPoint("CENTER", p.crestBg)
   p.tName = fs(p, FONT_HEAD, 30, RED); p.tName:SetPoint("TOP", p.crestBg, "BOTTOM", 0, -12); p.tName:SetJustifyH("CENTER")
   p.tSub = fs(p, FONT_HEAD, 15, INK); p.tSub:SetPoint("TOP", p.tName, "BOTTOM", 0, -6); p.tSub:SetJustifyH("CENTER")
-  p.tDiv = p:CreateTexture(nil, "ARTWORK"); p.tDiv:SetTexture(C.MEDIA .. "divider"); p.tDiv:SetSize(320, 20); p.tDiv:SetPoint("TOP", p.tSub, "BOTTOM", 0, -10)
+  p.tDiv = p:CreateTexture(nil, "ARTWORK"); C.Theme.Skin(p.tDiv, "divider"); p.tDiv:SetSize(320, 20); p.tDiv:SetPoint("TOP", p.tSub, "BOTTOM", 0, -10)
   p.tBody = fs(p, FONT_BODY, 13, INK); p.tBody:SetPoint("TOP", p.tDiv, "BOTTOM", 0, -10); p.tBody:SetWidth(PAGE_W - 30)
   p.tStats = fs(p, FONT_HEAD, 14, FADED); p.tStats:SetPoint("BOTTOM", 0, 24); p.tStats:SetJustifyH("CENTER")
   return p
@@ -404,13 +404,13 @@ local function renderPage(p, page, number)
       hit:SetPoint("TOPLEFT", p, "TOPLEFT", 0, 0); hit:SetSize(PAGE_W, 190)
     elseif b.kind == "chapterhead" then
       ti = ti + 1; local t = getText(p, ti, FONT_HEAD, 26, RED); t:SetPoint("TOP", p, "TOP", 0, -y - 6); t:SetJustifyH("CENTER"); t:SetWidth(PAGE_W); t:SetText(b.text)
-      di = di + 1; local d = getDeco(p, di); d.tex:SetTexture(C.MEDIA .. "divider"); d.tex:SetSize(300, 18); d.tex:SetPoint("TOP", p, "TOP", 0, -y - 40)
+      di = di + 1; local d = getDeco(p, di); d.tex:SetTexture(C.Theme.Tex("divider")); d.tex:SetSize(300, 18); d.tex:SetPoint("TOP", p, "TOP", 0, -y - 40)
       y = y + 70
     elseif b.kind == "heading" then
       ti = ti + 1; local t = getText(p, ti, FONT_HEAD, 16, RED); t:SetPoint("TOPLEFT", 0, -y); t:SetWidth(PAGE_W); t:SetJustifyH("LEFT"); t:SetText(b.text)
       y = y + 26
     elseif b.kind == "divider" then
-      di = di + 1; local d = getDeco(p, di); d.tex:SetTexture(C.MEDIA .. "divider"); d.tex:SetSize(260, 16); d.tex:SetPoint("TOP", p, "TOP", 0, -y - 2)
+      di = di + 1; local d = getDeco(p, di); d.tex:SetTexture(C.Theme.Tex("divider")); d.tex:SetSize(260, 16); d.tex:SetPoint("TOP", p, "TOP", 0, -y - 2)
       y = y + 22
     elseif b.kind == "sketch" then
       J.DrawSketch(p, b)
