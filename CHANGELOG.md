@@ -1,6 +1,7 @@
 # Changelog
 
-## v0.7.0
+## v0.7.0 — first public beta
+- First public beta for WoW Forever (Interface 16001): Echoes journal book with Timeline, Echoes, Arcs and Chapters; echo toasts; Journey map with echo pins (Kalimdor + Eastern Kingdoms); fights & death reports; photo mode; Friends & Sharing; Data & Backups with optional Vault companion. All data stays local.
 - Echo popup hint no longer clipped: short text ("Click: open · Right-click: options"), wraps within the popup and leaves room for the camera button; "Shift-drag to move" shows while hovering.
 - Wording: "chronicle" replaced by "journal" in all visible text (search box "Search the journal...", Data & Backups, friend echoes, map pin tooltip, restore prompts). Saved data keys are unchanged.
 
