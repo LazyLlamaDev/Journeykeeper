@@ -21,19 +21,13 @@ A WoW Forever beta (Interface 16001, Mainline API) addon written in plain Lua wi
 `/jkp` opens the journal. `/jkp config` opens the settings, `/jkp export` opens a plain-text export, `/jkp note <text>` adds a note to your target (or your most recent ally), `/jkp test` shows a test toast, `/jkp unmute` clears every memory you muted, and `/jkp debug` prints echo scores. New in v0.3: `/jkp html` (HTML book of the weightiest memories, in a copyable box), `/jkp pin [#]` (pins the last echoed memory, or entry #), `/jkp arc new <name>` | `add [#]` | `use <n>` | `arc` (list), `/jkp diary`, `/jkp digest`.
 
 ## Layout
-Registry.lua (generated) · Core · Templates · Toast · Echoes · Logger · Tooltip · Journal · Settings · MapPins · media/*.tga (uncompressed 32-bit BGRA, top-left origin, written by tools/tga.py)
+Registry.lua (generated event registry) · Core · Templates · Toast · Echoes · Logger · Tooltip · Journal · Settings · MapPins · media/*.tga (uncompressed 32-bit BGRA, top-left origin)
 
-Textures come from tools/make_media.py (toasts, crests) and tools/make_book.py (book, ribbon, curl, drop cap, divider, map pin). Previews come from tools/previews2.py; the previews use stand-in fonts (IM Fell English SC instead of Morpheus, Marcellus instead of Friz Quadrata).
-tools/catalog.py → docs/EVENT_CATALOG.md + Registry.lua · tools/make_media.py → media · tools/previews.py → previews · tools/smoke.py (offline WoW-API mock test)
-
-## Adding an event
-1. Add a row to `tools/catalog.py` with impl=1, then run `python3 tools/catalog.py`.
-2. Call `C.Emit("<id>", narrative, extraTable, {title=..., key=..., force=...})` from a handler in Logger.lua (`C.On(EVENT, fn)`).
-The settings panel picks the new event up automatically.
+The event list is documented in docs/EVENT_CATALOG.md.
 
 ## Installing from source
 1. Copy (or junction/symlink) the `Journeykeeper` and `Journeykeeper_Vault` folders into `World of Warcraft\_classic_beta_\Interface\AddOns\`.
-2. `tools/`, `docs/`, `tests/` and `previews/` are harmless inside AddOns (the game ignores them), but release zips leave them out.
+2. `docs/` is harmless inside AddOns (the game ignores it), but release zips leave it out.
 
 ## Echo engine
 Each echo gets a score: a category weight (deaths and dungeons 3; allies, levels, loot and achievements 2; zones 1), plus 2 for a first, 3 for an anniversary, 2 for an absence of 30+ days and 1 for shared history (3 or more), minus 3 if that memory was shown in the last day or 1 if in the last week. Forced events get +5.
@@ -48,7 +42,6 @@ Echoes are held back in combat and, if you choose, inside instances (up to 5 wai
 - **Threads**: chains ("the third time you returned to where you first fell", a homecoming to your first zone after 10+ levels), arcs you create yourself (each gets a chapter in the journal), and a "Since you were last here" digest at login.
 - **Agency**: "Never show this memory again", "Remind me more about <category>", an automatic intensity curve (stricter in raids, instances and sessions over 2 h, looser while resting), and an Echo Diary tab.
 - **Variety**: templates are grouped into flavour families, and a family used in either of the last two picks for that kind is skipped.
-- **Box tool**: `python3 tools/sv2html.py <WTF/Account/ACC/SavedVariables/Journeykeeper.lua> journeykeeper.html --top 100` turns your saved data into a two-page HTML book (pure Python, no dependencies). Sample: previews/sample_journeykeeper.html.
 
 ## v0.4
 
@@ -92,8 +85,6 @@ Incoming messages:
 
 Commands: `/jkp friend add|remove|block|unblock|list Name-Realm`, `/jkp records`.
 
-Tests: `tools/smoke4.py` runs a two-client lupa simulation with 20 checks. Previews are made by `tools/previews4.py`; the fonts are stand-ins.
-
 ## v0.4.1 - Friends & Sharing page
 A Settings subcategory under Journeykeeper (`/jkp friend page`, implemented in `FriendsPage.lua`).
 
@@ -112,8 +103,6 @@ A Settings subcategory under Journeykeeper (`/jkp friend page`, implemented in `
 - A party HELLO from a stranger is listed as "Known", but gets no reply and no milestone data.
 - A milestone that arrives twice (via whisper and party/guild) is handled once.
 
-Tests: `tools/smoke5.py` (16 checks). Preview: `previews/friends_sharing_page.png`.
-
 
 ## v0.5 - Data safety
 See `docs/DATA_SAFETY.md`.
@@ -126,13 +115,13 @@ See `docs/DATA_SAFETY.md`.
 - A Data & Backups Settings page (`/jkp data`) with verify and restore.
 - Full export and merge-import (`/jkp exportall`, `/jkp import`), with stable entry ids.
 - Handler isolation and patch detection, so one failing module does not break the rest.
-- A Windows disk-backup script (`tools/windows/backup_savedvars.ps1`) and `tools/svcheck.py`.
+- A manual snapshot at any time with `/jkp backup`.
 
 **Sync:** Journeykeeper_Vault must be its own folder in `Interface\AddOns`. Junction or copy `Journeykeeper\Journeykeeper_Vault` next to `Journeykeeper`.
 
 
 ## v0.5.1 - Performance
-See `docs/PERFORMANCE.md`. Measure with `/jkp perf`; benchmark with `python tools/bench.py lua51|luajit21`.
+See `docs/PERFORMANCE.md`. Measure in-game with `/jkp perf`.
 
 **Changes:**
 - The combat log listener is now opt-in.
@@ -146,7 +135,7 @@ Every module is its own file with its own Settings section and master switch. Al
 
 | Module | File | Default | What it does |
 |---|---|---|---|
-| Photo mode | `Photo.lua` | on | `/jkp photo [close/medium/wide]`, a keybind, or the spyglass button on toasts and the journal. Works only out of combat. Hides the UI (`UIParent:Hide`, never in combat), shows a vignette + ornate frame + caption, calls `Screenshot()`, then restores the UI and camera. If combat starts mid-shot, the UI comes back as soon as combat ends. The photo is linked to the memory by uid. The journal shows a placeholder card with the filename (`WoWScrnShot_MMDDYY_HHMMSS.jpg`); `tools/sv2html.py` links the real images (`--shots <dir>`). |
+| Photo mode | `Photo.lua` | on | `/jkp photo [close/medium/wide]`, a keybind, or the spyglass button on toasts and the journal. Works only out of combat. Hides the UI (`UIParent:Hide`, never in combat), shows a vignette + ornate frame + caption, calls `Screenshot()`, then restores the UI and camera. If combat starts mid-shot, the UI comes back as soon as combat ends. The photo is linked to the memory by uid. The journal shows a placeholder card with the filename (`WoWScrnShot_MMDDYY_HHMMSS.jpg`). |
 | Journey map | `Journey.lua` | on | New **Journey** tab: each character's road (zones in first-visit order with dates, level-ups, firsts), a continent sketch page (positions from `C_Map.GetMapRectOnMap`), and the photo Album. Optional ink path on the world map, drawn from ghost-trail samples. |
 | Death reports | `DeathReport.lua` | on (announce **off**) | A "last moments" card per death: killer, level, zone/subzone, coords, time alive since the last death, last target, falling/drowning, group members present (max 10), plus a death counter. Upgrades the Deaths tab. Optional one-line party/guild announcement: at most once per 5 min, never in combat lockdown or during an encounter. |
 | Person profiles | `Profiles.lua` | on | Private TRP3-lite cards: class, race/level when seen, guild, first met, shared runs, rating, tags, notes, Journeykeeper sharing status. Only players you have already met are updated. Commands: `/jkp who [name]`, `/jkp tag <name> <tag>`, `/jkp rate <name> 0-5`. Open with a keybind, or see the tooltip line. Nothing is ever sent. |
@@ -154,7 +143,6 @@ Every module is its own file with its own Settings section and master switch. Al
 | Book-style dialogue | `Dialogue.lua` | **off** | Adds a "Read in Journeykeeper" button and a parchment that mirrors the quest text. Story (campaign/important) quest texts are saved to the Diary chapter's "Tales" section. Blizzard's quest frame is never hooked, re-parented or scripted, and accept/complete stay on Blizzard's buttons. |
 
 Keybinds (Bindings.xml): Photo mode, Profile of target, Open the journal. New events: `photo_taken`, `quest_story`.
-Tests: `tools/smoke7.py` covers the v0.5→v0.6 migration (52 checks) plus one mock test per module. All earlier smokes still pass. Previews: `tools/previews7.py` (stand-in fonts: IM Fell English SC ≈ Morpheus, Marcellus ≈ Friz Quadrata; the photo backdrop is painted, not a game screenshot).
 
 ## Upgrading from the "Chronicle" test builds
 No public release ever used the old name, so there is no automatic migration. If you have local data from a "Chronicle" test build, keep that old addon enabled for **one** login next to Journeykeeper (it loads first: addons load alphabetically). Journeykeeper then imports `ChronicleDB` once, but only if the data carries this addon's own fingerprint, so data from unrelated addons that use the same name is ignored. The import adds data only, skips duplicates by stable uid, takes a pre-import snapshot, and never changes the old table. Afterwards you can disable or delete the old folder. Old `!CHRONICLE1!` export strings can also still be pasted into `/jkp import`.
