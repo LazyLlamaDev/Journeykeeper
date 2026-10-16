@@ -55,6 +55,7 @@ WoW also keeps its own `Journeykeeper.lua.bak` next to each file.
 | 5 | v0.4.1 | `peers[].shared = 0` |
 | 6 | v0.5 | stable `uid` on every entry; `quarantine`, `health`, `migrations` tables |
 | 7 | v0.6 | new lists `photos`, `deathReports`, `quests` (each record has a `uid`); entries may carry `photo` / `report` uid links. Additive only. |
+| 8 | v0.7.1 | `fellowship{people,archive}`; settings get `preset = "custom"` for existing journals (no other setting is touched). Additive only. |
 
 Every migration is:
 - **ordered:** it runs from `schema + 1` up to `D.SCHEMA`

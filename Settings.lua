@@ -25,7 +25,7 @@ local function slider(parent, o)
   s.val = s:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); s.val:SetPoint("LEFT", s, "RIGHT", 8, 0)
   s:SetScript("OnValueChanged", function(self, v)
     v = floor(v / o.step + 0.5) * o.step
-    C.set[o.key] = v; self.val:SetText(o.step < 1 and format("%.2f", v) or tostring(v))
+    local old = C.set[o.key]; C.set[o.key] = v; if old ~= v then C.Touched(o.key) end; self.val:SetText(o.step < 1 and format("%.2f", v) or tostring(v))
     if o.apply then pcall(o.apply) end
   end)
   s.Update = function() s:SetValue(C.set[o.key] or o.default); s.val:SetText(tostring(C.set[o.key])) end
@@ -83,16 +83,16 @@ local function optionRow(o, parent)
   local w
   if o.type == "toggle" then
     w = CreateFrame("CheckButton", nil, r, "UICheckButtonTemplate"); w:SetSize(22, 22); w:SetPoint("LEFT", 310, 0)
-    w:SetScript("OnClick", function(self) C.set[o.key] = self:GetChecked() and true or false; if o.apply then pcall(o.apply) end; if C.Atmos then C.Atmos.UpdateMinimap() end; if C.MapPins then C.MapPins.Refresh(true) end end)
+    w:SetScript("OnClick", function(self) C.set[o.key] = self:GetChecked() and true or false; C.Touched(o.key); if o.apply then pcall(o.apply) end; if C.Atmos then C.Atmos.UpdateMinimap() end; if C.MapPins then C.MapPins.Refresh(true) end end)
     w.Update = function() w:SetChecked(C.set[o.key]) end
   elseif o.type == "slider" then
     w = slider(r, o); w:SetPoint("LEFT", 316, 0)
   elseif o.type == "cycle" then
-    w = cycleButton(r, o.values, function() return C.set[o.key] end, function(v) C.set[o.key] = v; if o.apply then pcall(o.apply) end end, 110); w:SetPoint("LEFT", 310, 0)
+    w = cycleButton(r, o.values, function() return C.set[o.key] end, function(v) C.set[o.key] = v; C.Touched(o.key); if o.apply then pcall(o.apply) end end, 110); w:SetPoint("LEFT", 310, 0)
   elseif o.type == "input" then
-    w = CreateFrame("EditBox", nil, r, "InputBoxTemplate"); w:SetSize(160, 20); w:SetPoint("LEFT", 316, 0); w:SetAutoFocus(false); w:SetMaxLetters(40)
-    w:SetScript("OnEnterPressed", function(self) C.set[o.key] = self:GetText(); self:ClearFocus() end)
-    w:SetScript("OnEditFocusLost", function(self) C.set[o.key] = self:GetText() end)
+    w = CreateFrame("EditBox", nil, r, "InputBoxTemplate"); w:SetSize(160, 20); w:SetPoint("LEFT", 316, 0); w:SetAutoFocus(false); w:SetMaxLetters(o.maxLetters or 40)
+    w:SetScript("OnEnterPressed", function(self) local v = self:GetText(); if v ~= C.set[o.key] then C.set[o.key] = v; C.Touched(o.key); if o.apply then pcall(o.apply) end end; self:ClearFocus() end)
+    w:SetScript("OnEditFocusLost", function(self) local v = self:GetText(); if v ~= C.set[o.key] then C.set[o.key] = v; C.Touched(o.key); if o.apply then pcall(o.apply) end end end)
     w.Update = function() w:SetText(C.set[o.key] or "") end
   elseif o.type == "button" then
     w = CreateFrame("Button", nil, r, "UIPanelButtonTemplate"); w:SetSize(110, 20); w:SetPoint("LEFT", 310, 0); w:SetText("Run")
@@ -141,16 +141,16 @@ local function build()
       local anyOff = false
       for _, r in ipairs(g.rows) do if not C.set.ev[r.id] then anyOff = true end end
       for _, r in ipairs(g.rows) do C.set.ev[r.id] = anyOff end
-      refreshAll()
+      C.Touched("ev"); refreshAll()
     end)
     for _, e in ipairs(C.EVENTS) do
       if e.cat == cdef.key then
         local r = CreateFrame("Frame", nil, content); r:SetSize(600, 22); r.id = e.id
         r.cb = CreateFrame("CheckButton", nil, r, "UICheckButtonTemplate"); r.cb:SetSize(22, 22); r.cb:SetPoint("LEFT")
-        r.cb:SetScript("OnClick", function(self) C.set.ev[e.id] = self:GetChecked() and true or false; refreshAll() end)
+        r.cb:SetScript("OnClick", function(self) C.set.ev[e.id] = self:GetChecked() and true or false; C.Touched("ev"); refreshAll() end)
         local d = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); d:SetPoint("LEFT", 26, 0); d:SetWidth(390); d:SetJustifyH("LEFT"); d:SetWordWrap(false)
         d:SetText(e.desc .. "  " .. (FEAS[e.feas] or ""))
-        r.ch = cycleButton(r, C.CHANNELS, function() return C.set.channel[e.id] end, function(v) C.set.channel[e.id] = v end, 80)
+        r.ch = cycleButton(r, C.CHANNELS, function() return C.set.channel[e.id] end, function(v) C.set.channel[e.id] = v; C.Touched("channel") end, 80)
         r.ch:SetPoint("RIGHT", -40, 0)
         tinsert(g.rows, r)
       end
@@ -176,3 +176,4 @@ function C.OpenSettings()
   if category and Settings.OpenToCategory then Settings.OpenToCategory(category:GetID())
   else C.Print("Settings API unavailable") end
 end
+C.SettingsRefresh = function() if refreshAll then refreshAll() end end

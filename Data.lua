@@ -3,7 +3,7 @@
 local _, C = ...
 local D = {}; C.Data = D
 local Codec = C.Codec
-D.SCHEMA = 7                 -- bump with every data-shape change, add a migration below
+D.SCHEMA = 8                 -- bump with every data-shape change, add a migration below
 D.RING = 2                   -- ring snapshots per backup file (+ one "latest" slot + pinned pre-migration)
 D.state, D.writable, D.warnings = "init", false, {}
 
@@ -68,6 +68,11 @@ D.MIGRATIONS = {
   [7] = { name = "v0.6 photos, death reports, quest tales", run = function(db)
     ensure(db, "photos"); ensure(db, "deathReports"); ensure(db, "quests")
   end },
+  [8] = { name = "v0.7.1 fellowship + presets", run = function(db)
+    ensure(db, "fellowship"); ensure(db.fellowship, "people"); ensure(db.fellowship, "archive")
+    -- presets: an existing journal keeps every setting; it is only labelled "custom" (picker offered once)
+    if type(db.settings) == "table" and db.settings.preset == nil then db.settings.preset = "custom"; db.settings.presetOffer = true end
+  end },
 }
 function D.DetectSchema(db)
   if type(db.schema) == "number" then return db.schema end
@@ -112,7 +117,7 @@ local function quarantine(db, where, value, why)
   return #db.quarantine
 end
 local LISTS = { entries = true, deathSpots = true, diary = true, arcs = true, photos = true, deathReports = true, quests = true }
-local MAPS = { "settings", "firstZone", "firstSub", "deathCount", "players", "firstLevel", "firstDungeon", "stats", "echoSeen", "family", "trail", "idCount", "tplRecent", "muted", "chars", "records", "share" }
+local MAPS = { "settings", "firstZone", "firstSub", "deathCount", "players", "firstLevel", "firstDungeon", "stats", "echoSeen", "family", "trail", "idCount", "tplRecent", "muted", "chars", "records", "share", "fellowship" }
 function D.Validate(db)
   local fixed, q = 0, 0
   for _, k in ipairs(MAPS) do

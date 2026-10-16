@@ -4,10 +4,14 @@
 ## X-Website: https://github.com/LazyLlamaDev/Journeykeeper
 ## X-License: All Rights Reserved
 ## Author: LazyLlama
-## Version: 0.7.0
+## Version: 0.7.1
 ## SavedVariables: JourneykeeperDB, JourneykeeperBackupDB
 ## OptionalDeps: Journeykeeper_Vault
 ## SavedVariablesPerCharacter: JourneykeeperCharDB
+## IconTexture: Interface\AddOns\Journeykeeper\media\icon_thread
+## AddonCompartmentFunc: Journeykeeper_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: Journeykeeper_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: Journeykeeper_OnAddonCompartmentLeave
 Registry.lua
 Core.lua
 Serialize.lua
@@ -39,3 +43,6 @@ DeathReport.lua
 Profiles.lua
 WarbandTOC.lua
 Dialogue.lua
+Presets.lua
+Notes.lua
+Fellowship.lua

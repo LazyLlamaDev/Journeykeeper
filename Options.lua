@@ -2,6 +2,12 @@
 -- type: toggle | slider | cycle | button
 local _, C = ...
 C.OPTIONS = {
+  { section = "Detail Preset", items = {
+    { key = "preset", type = "cycle", label = "Detail preset", values = { "essentials", "storyteller", "chronicler", "custom" },
+      help = "essentials = only the big moments, few popups. storyteller = the balanced default. chronicler = record nearly everything, more echoes. Changing any setting yourself switches to 'custom'. Choosing a preset never deletes memories.",
+      apply = function() if C.Presets then C.Presets.Apply(C.set.preset) end end },
+    { key = "presetPicker", type = "button", label = "Show the preset picker", run = function() if C.Presets then C.Presets.ShowPicker(true) end end },
+  } },
   { section = "General", items = {
     { key = "intensity", type = "cycle", label = "Echo intensity", values = { "silent", "soft", "present", "storyteller" }, default = "present", help = "How often and how readily echoes appear." },
     { key = "quietMode", type = "toggle", label = "Quiet Mode", default = false, help = "Only the highest-weight memories are shown." },
@@ -128,6 +134,21 @@ C.OPTIONS = {
   { section = "Incoming", page = "friends", items = {
     { key = "shareToasts", type = "toggle", label = "Show toasts for incoming friend milestones", default = true, help = "Off: they are only logged in the journal." },
     { key = "shareSharedToasts", type = "toggle", label = "Show toasts for shared memories", default = true },
+  } },
+  { section = "Quick Notes", items = {
+    { key = "quickNotes", type = "toggle", label = "Quick notes (master switch)", default = true, help = "/jkp note <text>, the key binding, the journal's Note button and Shift-click on the minimap icon. Notes are journal entries with zone, time and character; right-click one in the journal to edit or archive it." },
+    { key = "noteSlash", type = "toggle", label = "Also register /note (only if no other addon uses it)", default = true, help = "Checked at login. If another addon already owns /note, only /jkp note is used. Takes effect after /reload." },
+    { key = "minimapNoteClick", type = "toggle", label = "Shift-click the minimap icon for a quick note", default = true },
+  } },
+  { section = "Fellowship", items = {
+    { key = "fellowship", type = "toggle", label = "Remember the people I group with (master switch)", default = true, help = "Stores only name, realm and class, plus when and where you met, time together, shared dungeon runs and boss kills. Never sent anywhere." },
+    { key = "fellowGuild", type = "toggle", label = "Leave out members of my guild", default = false },
+    { key = "fellowEchoes", type = "toggle", label = "Echo when I group again with someone I ran a dungeon or killed a boss with", default = true },
+    { key = "fellowRetention", type = "slider", label = "Forget fellows not seen for (days, 0 = never)", min = 0, max = 730, step = 30, default = 0, help = "0 keeps everyone. A snapshot is taken before anyone is removed." },
+    { key = "fellowExclude", type = "input", label = "Never record these names (comma separated)", default = "", maxLetters = 250, help = "e.g. 'Bob, Alice-Realm'. A name without realm matches every realm." },
+  } },
+  { section = "Addon Compartment", items = {
+    { key = "compartment", type = "toggle", label = "Use the Addon Compartment entry (left: journal, right: settings)", default = true, help = "Blizzard always lists the entry; when this is off, clicking it only prints a hint." },
   } },
   { section = "Export", items = {
     { key = "htmlTop", type = "slider", label = "Memories in the HTML book", min = 10, max = 200, step = 10, default = 50 },

@@ -126,7 +126,10 @@ Generated from the addon's event list. Feasibility is judged against the WoW For
 | `shared_echo` | You and a friend share the same memory (same boss/rare/dungeon, same day) | incoming milestone matched to own entries | OK | on | toast | yes |
 | `group_join` | Grouped with a player (name-realm, GUID, class, where, duration) | GROUP_ROSTER_UPDATE | OK | on | tooltip | yes |
 | `group_echo` | Echo when grouping with / hovering a known player | GROUP_ROSTER_UPDATE / UPDATE_MOUSEOVER_UNIT | OK | on | tooltip | yes |
-| `ally_note` | Personal note on an ally | /jkp note | OK | on | journal | yes |
+| `ally_note` | Personal note on an ally | /jkp allynote | OK | on | journal | yes |
+| `quick_note` | Quick note written into the journal (zone, time, character) | /jkp note, /note, minimap Shift-click, key binding | OK | on | journal | yes |
+| `fellow_first` | Fellowship: met a new fellow traveller in a group | GROUP_ROSTER_UPDATE (name, realm, class only) | OK | on | journal | yes |
+| `fellow_echo` | Fellowship: grouped again with someone you ran a dungeon or killed a boss with | GROUP_ROSTER_UPDATE vs fellowship runs/kills | OK | on | toast | yes |
 | `guild_join` | Joined a guild | PLAYER_GUILD_UPDATE + GetGuildInfo | OK | on | toast | yes |
 | `friend_add` | Added a friend | FRIENDLIST_UPDATE diff | partial | off | journal |  |
 | `trade_first` | First trade with a player | TRADE_CLOSED + name | partial | off | journal |  |

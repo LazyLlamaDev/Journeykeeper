@@ -202,6 +202,7 @@ local function closeMember(guid, m)
   local p = C.db.players[guid]
   if p then p.secs = (p.secs or 0) + (time() - m.start) end
   tinsert(justLeft, { guid = guid, name = m.name, secs = time() - m.start, inst = m.inst })
+  if C.Fellowship then pcall(C.Fellowship.OnLeave, m.name) end
 end
 C.On("GROUP_ROSTER_UPDATE", function()
   local seen, raid = {}, IsInRaid()
@@ -216,6 +217,8 @@ C.On("GROUP_ROSTER_UPDATE", function()
         local _, cls = UnitClass(unit)
         local full = name and (name .. "-" .. ((realm and realm ~= "") and realm or GetNormalizedRealmName() or "")) or "?"
         current[guid] = { name = full, start = time(), inst = select(2, where()) and (where()) or nil }
+        local fechoed = false
+        if C.Fellowship then local okf, r = pcall(C.Fellowship.OnJoin, unit, full, S(cls), S(UnitIsInMyGuild and UnitIsInMyGuild(unit))); fechoed = okf and r end
         local p = C.db.players[guid]; local isNew = not p
         p = p or { name = full, first = time(), count = 0, notes = {}, secs = 0 }
         C.db.players[guid] = p
@@ -225,7 +228,7 @@ C.On("GROUP_ROSTER_UPDATE", function()
         local w, inst = where(); p.lastWhere = w; p.lastChar = me()
         if inst then p.runs = (p.runs or 0) + 1 end
         C.Emit(inst and "dungeon_party" or "group_join", format("%s joined forces with %s in %s.", short(), full, w or "?"), { guid = guid, instance = inst and w or nil })
-        if not isNew then
+        if not isNew and not fechoed then
           C.Echo("group_echo", "g" .. guid, C.Tpl("ally", { name = full, n = p.count - 1, where = prevWhere or "?", date = prevT and C.dateStr(prevT) or "?" })
             .. ((#p.notes > 0) and ("\n\"" .. p.notes[#p.notes].text .. "\"") or ""), "An old ally", nil, { shared = p.count - 1, guid = guid })
         end
@@ -240,7 +243,7 @@ C.On("GROUP_ROSTER_UPDATE", function()
 end)
 C.On("PLAYER_LOGOUT", function() for g, m in pairs(current) do closeMember(g, m) end end)
 function C.AddNote(text)
-  if not text or text == "" then C.Print("usage: /jkp note <text>  (targets a player, else your most recent ally)") return end
+  if not text or text == "" then C.Print("usage: /jkp allynote <text>  (targets a player, else your most recent ally)") return end
   local guid = UnitExists("target") and S(UnitIsPlayer("target")) and S(UnitGUID("target"))
   local name
   if guid then local n, r = UnitName("target"); n, r = S(n), S(r); name = n and (n .. "-" .. ((r and r ~= "") and r or GetNormalizedRealmName() or "")) end

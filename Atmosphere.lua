@@ -89,12 +89,14 @@ local function buildMinimap()
   mm:SetScript("OnClick", function(_, btn)
     if mm.isDragging then return end
     A.unread = 0; A.UpdateMinimap()
+    if btn == "LeftButton" and IsShiftKeyDown() and C.set.minimapNoteClick and C.set.quickNotes then C.Notes.Prompt() return end
     if btn == "RightButton" then C.OpenSettings() else C.Journal.OpenTab("Echoes") end
   end)
   mm:SetScript("OnEnter", function(self)
     GameTooltip:SetOwner(self, "ANCHOR_LEFT"); GameTooltip:AddLine("Journeykeeper", 1, 0.82, 0.3)
     GameTooltip:AddLine(A.unread > 0 and format("%d new echo%s", A.unread, A.unread == 1 and "" or "es") or "No new echoes", 0.9, 0.85, 0.75)
     GameTooltip:AddLine("Left-click: Echoes  ·  Right-click: settings", 0.6, 0.6, 0.6)
+    if C.set.minimapNoteClick and C.set.quickNotes then GameTooltip:AddLine("Shift-click: quick note", 0.6, 0.6, 0.6) end
     GameTooltip:AddLine("Shift-drag: move icon on the rim", 0.55, 0.55, 0.55)
     GameTooltip:Show()
   end)

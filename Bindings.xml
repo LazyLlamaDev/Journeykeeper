@@ -11,4 +11,13 @@
   <Binding name="JOURNEYKEEPER_JOURNAL" category="ADDONS">
     if JourneykeeperAPI then JourneykeeperAPI.Journal.Toggle() end
   </Binding>
+  <Binding name="JOURNEYKEEPER_JOURNEY" category="ADDONS">
+    if JourneykeeperAPI and JourneykeeperAPI.Journal.Journey then JourneykeeperAPI.Journal.Journey() end
+  </Binding>
+  <Binding name="JOURNEYKEEPER_NOTE" category="ADDONS">
+    if JourneykeeperAPI and JourneykeeperAPI.Notes then JourneykeeperAPI.Notes.Prompt() end
+  </Binding>
+  <Binding name="JOURNEYKEEPER_FELLOWSHIP" category="ADDONS">
+    if JourneykeeperAPI and JourneykeeperAPI.Journal.Fellowship then JourneykeeperAPI.Journal.Fellowship() end
+  </Binding>
 </Bindings>

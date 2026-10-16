@@ -47,6 +47,11 @@ function C.MemoryMenuItems(item)
     if arc then tinsert(items, { text = "Add to arc: " .. arc.name, func = function() C.ArcAdd(list) end }) end
     tinsert(items, { text = "Start a new arc with this...", func = function() C.ArcPrompt(list) end })
     tinsert(items, { text = "Open in journal", func = function() C.Journal.OpenAt(list[1]) end })
+    local e1 = C.db.entries[list[1]]
+    if #list == 1 and type(e1) == "table" and e1.id == "quick_note" and C.Notes then
+      tinsert(items, { text = "Edit this note", func = function() C.Notes.Prompt(list[1]) end })
+      tinsert(items, { text = "Archive this note (restore: /jkp note restore)", func = function() C.Notes.Archive(list[1]) end, color = { 1, 0.7, 0.5 } })
+    end
   end
   if item.cat then
     tinsert(items, { text = "Remind me more about " .. ((C.CATS[item.cat] or {}).label or item.cat):lower(), func = function()

@@ -1,0 +1,48 @@
+## Interface: 16001
+## Title: Journeykeeper — Echoes of Your Journey
+## Notes: Echoes of Your Journey - remembers your firsts, deaths, allies and stories, and echoes them back. Local only.
+## X-Website: https://github.com/LazyLlamaDev/Journeykeeper
+## X-License: All Rights Reserved
+## Author: LazyLlama
+## Version: 0.7.1
+## SavedVariables: JourneykeeperDB, JourneykeeperBackupDB
+## OptionalDeps: Journeykeeper_Vault
+## SavedVariablesPerCharacter: JourneykeeperCharDB
+## IconTexture: Interface\AddOns\Journeykeeper\media\icon_thread
+## AddonCompartmentFunc: Journeykeeper_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: Journeykeeper_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: Journeykeeper_OnAddonCompartmentLeave
+Registry.lua
+Core.lua
+Serialize.lua
+Data.lua
+Options.lua
+Weight.lua
+Menu.lua
+Templates.lua
+Toast.lua
+Echoes.lua
+Logger.lua
+Tooltip.lua
+Journal.lua
+Settings.lua
+MapPins.lua
+Warband.lua
+Social.lua
+Atmosphere.lua
+Threads.lua
+Flavor.lua
+Combat.lua
+Share.lua
+FriendsPage.lua
+DataPage.lua
+Perf.lua
+Photo.lua
+Journey.lua
+DeathReport.lua
+Profiles.lua
+WarbandTOC.lua
+Dialogue.lua
+Presets.lua
+Notes.lua
+Fellowship.lua

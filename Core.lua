@@ -123,6 +123,7 @@ function C.InitDB(db, cdb)
   db.stats = db.stats or {}
   db.echoSeen = db.echoSeen or {}; db.diary = db.diary or {}; db.arcs = db.arcs or {}; db.family = db.family or {}; db.trail = db.trail or {}; db.idCount = db.idCount or {}; db.tplRecent = db.tplRecent or {}; db.muted = db.muted or {}; db.chars = db.chars or {}
   db.photos = db.photos or {}; db.deathReports = db.deathReports or {}; db.quests = db.quests or {}
+  db.fellowship = db.fellowship or {}; db.fellowship.people = db.fellowship.people or {}; db.fellowship.archive = db.fellowship.archive or {}
   -- v0.6.7: one key per character (realm spacing / early-login "?" realm produced duplicate chapters with 0 stats)
   do
     local canon = {}
@@ -252,7 +253,10 @@ SlashCmdList.JOURNEYKEEPER = function(msg)
   if cmd == "" or cmd == "show" then C.Journal.Toggle()
   elseif cmd == "config" or cmd == "settings" then C.OpenSettings()
   elseif cmd == "export" then C.Journal.Export()
-  elseif cmd == "note" then C.AddNote(rest)
+  elseif cmd == "note" or cmd == "notes" then C.Notes.Command(rest)
+  elseif cmd == "allynote" then C.AddNote(rest)
+  elseif cmd == "fellowship" or cmd == "fellows" then C.Journal.OpenTab("Fellowship")
+  elseif cmd == "preset" then if rest ~= "" and C.Presets.VALUES[rest:lower()] then C.Presets.Apply(rest:lower()) else C.Presets.ShowPicker(true) end
   elseif cmd == "test" then C.Toast.Test()
   elseif cmd == "toast" then
     if rest == "reset" then C.Toast.ResetPosition() elseif rest == "move" then C.Toast.ToggleMove() elseif C.Toast.SetPreset(rest) then C.Toast.Test() else C.Print("/jkp toast top | center | bottom | move | reset  (or Shift-drag any popup)") end
@@ -280,7 +284,7 @@ SlashCmdList.JOURNEYKEEPER = function(msg)
   elseif cmd == "journey" then C.Journal.OpenTab("Journey")
   elseif cmd == "warband" then C.Journal.OpenTab("Warband")
   elseif cmd == "debug" then C.debug = not C.debug; C.Print("debug " .. tostring(C.debug))
-  else C.Print("/jkp [show] | config | export | html | note <text> | pin [#] | arc ... | echoes [category] | digest | photo [snap|exit] | who <name> | tag | rate | played | journey | warband | test | toast top|center|bottom|move|reset | unmute | debug") end
+  else C.Print("/jkp [show] | config | export | html | note <text>|list|edit #|restore | allynote <text> | fellowship | preset [essentials|storyteller|chronicler] | pin [#] | arc ... | echoes [category] | digest | photo [snap|exit] | who <name> | tag | rate | played | journey | warband | test | toast top|center|bottom|move|reset | unmute | debug") end
 end
 
 -- realm name is reliable only after login

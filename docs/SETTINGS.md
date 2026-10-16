@@ -2,6 +2,13 @@
 
 Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated from `Options.lua`.
 
+## Detail Preset
+
+| Setting | Type | Default | Range / values | Notes |
+|---|---|---|---|---|
+| Detail preset | cycle |  | essentials, storyteller, chronicler, custom | essentials = only the big moments, few popups. storyteller = the balanced default. chronicler = record nearly everything, more echoes. Changing any setting yourself switches to 'custom'. Choosing a preset never deletes memories. |
+| Show the preset picker | button |  |  |  |
+
 ## General
 
 | Setting | Type | Default | Range / values | Notes |
@@ -10,8 +17,12 @@ Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated f
 | Quiet Mode | toggle | false |  | Only the highest-weight memories are shown. |
 | Quiet Mode minimum score | slider | 8 | 4 - 14 (step 1) |  |
 | Toast style | cycle | parchment | parchment, dark |  |
+| Popup position | cycle | top | top, center, bottom, custom | top = top-center (default), center = middle of the screen, bottom = bottom-center. 'custom' is set automatically when you Shift-drag a popup. |
+| Reset popup position (Shift-drag a popup to move it) | button |  |  |  |
+| Book size (%) | slider | 100 | 50 - 160 (step 5) | 100 = automatic size for your screen (1080p, 1440p and 4K). The book always stays fully on screen. |
+| Reset book position | button |  |  |  |
 | Hold echoes while in instances | toggle | true |  |  |
-| World map pins for memorable spots | toggle | true |  |  |
+| World map pins for memorable spots | toggle | false |  | Off by default: pinning frames onto the world map can trigger Blizzard's addon blocker. Turn on only if you need the pins. |
 
 ## Emotional Weighting
 
@@ -52,6 +63,7 @@ Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated f
 | Subtle screen vignette for strong echoes | toggle | false |  |  |
 | Vignette minimum score | slider | 9 | 4 - 14 (step 1) |  |
 | Minimap icon (glows on new echoes) | toggle | true |  |  |
+| Minimap icon angle (degrees) | slider | 225 | 0 - 359 (step 1) | Position on the rim. 225 = southwest, away from the Issue Reporter. Shift-drag the icon to set this live. |
 
 ## Threads & Arcs
 
@@ -106,6 +118,7 @@ Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated f
 |---|---|---|---|---|
 | Journey chapter (master switch) | toggle | true |  |  |
 | Continent sketch pages | toggle | true |  |  |
+| Use the real in-game continent map behind the journey path | toggle | true |  | Reads Blizzard map tiles via C_Map onto the journal page. Falls back to the drawn parchment map. |
 | Draw my path on the world map | toggle | true |  | Uses the ghost-trail samples you already record. |
 
 ## Death Reports
@@ -172,6 +185,30 @@ Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated f
 |---|---|---|---|---|
 | Show toasts for incoming friend milestones | toggle | true |  | Off: they are only logged in the journal. |
 | Show toasts for shared memories | toggle | true |  |  |
+
+## Quick Notes
+
+| Setting | Type | Default | Range / values | Notes |
+|---|---|---|---|---|
+| Quick notes (master switch) | toggle | true |  | /jkp note <text>, the key binding, the journal's Note button and Shift-click on the minimap icon. Notes are journal entries with zone, time and character; right-click one in the journal to edit or archive it. |
+| Also register /note (only if no other addon uses it) | toggle | true |  | Checked at login. If another addon already owns /note, only /jkp note is used. Takes effect after /reload. |
+| Shift-click the minimap icon for a quick note | toggle | true |  |  |
+
+## Fellowship
+
+| Setting | Type | Default | Range / values | Notes |
+|---|---|---|---|---|
+| Remember the people I group with (master switch) | toggle | true |  | Stores only name, realm and class, plus when and where you met, time together, shared dungeon runs and boss kills. Never sent anywhere. |
+| Leave out members of my guild | toggle | false |  |  |
+| Echo when I group again with someone I ran a dungeon or killed a boss with | toggle | true |  |  |
+| Forget fellows not seen for (days, 0 = never) | slider | 0 | 0 - 730 (step 30) | 0 keeps everyone. A snapshot is taken before anyone is removed. |
+| Never record these names (comma separated) | input |  |  | e.g. 'Bob, Alice-Realm'. A name without realm matches every realm. |
+
+## Addon Compartment
+
+| Setting | Type | Default | Range / values | Notes |
+|---|---|---|---|---|
+| Use the Addon Compartment entry (left: journal, right: settings) | toggle | true |  | Blizzard always lists the entry; when this is off, clicking it only prints a hint. |
 
 ## Export
 

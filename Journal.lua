@@ -9,7 +9,7 @@ local LEFT_X, RIGHT_X, TOP_Y = 64, 536, -58
 local FONT_HEAD, FONT_BODY = "Fonts\\MORPHEUS.TTF", "Fonts\\FRIZQT__.TTF"
 local INK, RED, FADED = { 0.24, 0.14, 0.05 }, { 0.5, 0.1, 0.04 }, { 0.45, 0.35, 0.22 }
 local TABS = { { "Chapters", 0.55, 0.12, 0.1 }, { "Timeline", 0.18, 0.3, 0.55 }, { "Firsts", 0.75, 0.6, 0.15 }, { "Deaths", 0.25, 0.25, 0.25 },
-  { "Allies", 0.2, 0.45, 0.25 }, { "Arcs", 0.45, 0.25, 0.55 }, { "Echoes", 0.7, 0.4, 0.2 }, { "Journey", 0.25, 0.5, 0.55 }, { "Warband", 0.6, 0.5, 0.2 } }
+  { "Allies", 0.2, 0.45, 0.25 }, { "Arcs", 0.45, 0.25, 0.55 }, { "Echoes", 0.7, 0.4, 0.2 }, { "Journey", 0.25, 0.5, 0.55 }, { "Warband", 0.6, 0.5, 0.2 }, { "Fellowship", 0.3, 0.55, 0.45 } }
 -- Modules provide whole chapters: J.PROVIDERS[tab] = { enabled = fn, build = fn(blocks, search, helpers) }
 J.PROVIDERS = {}
 local titlePage = {}
@@ -71,7 +71,7 @@ local function entryRow(i)
 end
 
 local echoFilter -- nil = all categories
-local function matches(e) if C.BadCombatText(e) then return false end return search == "" or ((e.text or "") .. " " .. (e.zone or "") .. " " .. (e.char or "")):lower():find(search:lower(), 1, true) end
+local function matches(e) if C.BadCombatText(e) or e.archived then return false end return search == "" or ((e.text or "") .. " " .. (e.zone or "") .. " " .. (e.char or "")):lower():find(search:lower(), 1, true) end
 
 local function dayBlocks(blocks, list, firstDrop, newestFirst)
   local curDay
@@ -702,7 +702,8 @@ local function create()
   -- v0.6.8: silk bookmark ribbons are side tabs sticking out of the RIGHT edge of the cover (never over the pages).
   -- Same ribbon_silk texture, rotated 90 degrees with texcoords (no new file, /reload is enough).
   win.ribbons = {}
-  local RH, RGAP, RTOP = 34, 50, 34
+  local RH, RTOP = 34, 34
+  local RGAP = math.min(50, floor((BH - RTOP - RH - 12) / math.max(1, #TABS - 1))) -- v0.7.1: 10 ribbons still fit the cover
   for i, def in ipairs(TABS) do
     local r = CreateFrame("Button", nil, win); r:SetSize(RIBBON_LEN, RH)
     r:SetPoint("LEFT", win, "TOPRIGHT", -RIBBON_TUCK, -(RTOP + (i - 1) * RGAP) - RH / 2); r:SetFrameLevel(math.max(1, win:GetFrameLevel() - 1))
@@ -722,7 +723,7 @@ local function create()
   -- footer: one even button bar inside the bottom leather band; search right-aligned
   local bar = CreateFrame("Frame", nil, win); bar:SetPoint("BOTTOMLEFT", win, "BOTTOMLEFT", 70, 4); bar:SetPoint("BOTTOMRIGHT", win, "BOTTOMRIGHT", -70, 4); bar:SetHeight(20)
   bar:SetFrameLevel(win:GetFrameLevel() + 4)
-  local acts = { { "HTML", function() J.ExportHTML() end }, { "Export", function() J.Export() end }, { "Note", function() J.NotePrompt() end },
+  local acts = { { "HTML", function() J.ExportHTML() end }, { "Export", function() J.Export() end }, { "Note", function() C.Notes.Prompt() end },
     { "Settings", function() C.OpenSettings() end }, { "Test echo", function() C.Toast.Test() end } }
   local BTN_W, BTN_GAP = 78, 8
   for i, a in ipairs(acts) do
