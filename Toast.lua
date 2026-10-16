@@ -99,7 +99,7 @@ function T.Next()
   local dark = C.set.toastStyle == "dark"
   local themed = not dark and C.Theme.IsParchment()
   f.bg:SetTexture(dark and (C.MEDIA .. "toast_dark") or C.Theme.Tex("toast_parchment"))
-  f.border:SetShown(not themed); f.seal:Hide() -- v0.7.1: calm classic look, no seal on toasts
+  f.border:SetShown(not themed); f.seal:SetShown(themed)
   f.icon:SetTexture(cat.icon); f.accent:SetVertexColor(r, g, b); f.glow:SetVertexColor(r, g, b, 0.55)
   f.cat:SetText(cat.label:upper()); f.cat:SetTextColor(r, g, b)
   f.title:SetText(item.title or cat.label)

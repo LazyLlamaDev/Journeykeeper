@@ -1,11 +1,11 @@
--- v0.7.1: visual themes. "parchment" (default) = new aged-parchment pages, cards and toasts in a calm classic-WoW book style;
+-- v0.7.1: visual themes. "parchment" (default) = new aged-parchment pages, cards and toasts with a compass wax seal;
 -- "classic" = the look up to 0.7.0. Purely cosmetic: one saved setting (C.set.theme), additive default, no data touched.
 -- Switching is live: every themed texture registers here and is re-skinned on C.Theme.Set.
 local _, C = ...
 local T = { VALUES = { parchment = true, classic = true }, ORDER = { "parchment", "classic" } }
 C.Theme = T
 -- base media name -> parchment-theme variant
-T.MAP = { book = "book_p", toast_parchment = "toast_parchment_p", card = "card_p", divider = "divider_p" }
+T.MAP = { book = "book_p", toast_parchment = "toast_parchment_p", card = "card_p" }
 local regs = {}
 function T.Get() local v = C.set and C.set.theme; return T.VALUES[v or ""] and v or "parchment" end
 function T.IsParchment() return T.Get() == "parchment" end
