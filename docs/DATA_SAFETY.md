@@ -6,7 +6,7 @@ Goal: a new Journeykeeper version never breaks or loses your data, and a WoW pat
 
 | SavedVariables | File (WTF\Account\<acct>\SavedVariables\) | Content |
 |---|---|---|
-| `JourneykeeperDB` | `Journeykeeper.lua` | The chronicle itself: entries, diary, arcs, settings, sharing, records |
+| `JourneykeeperDB` | `Journeykeeper.lua` | The journal itself: entries, diary, arcs, settings, sharing, records |
 | `JourneykeeperBackupDB` | `Journeykeeper.lua` | Backup ring 1 (3 snapshots), the pinned pre-migration snapshot, and the migration log |
 | `JourneykeeperVaultDB` | `Journeykeeper_Vault.lua` (companion addon **Journeykeeper_Vault**) | Backup ring 2 (3 snapshots), the newest snapshot, the pinned pre-migration snapshot, and the log |
 | `JourneykeeperCharDB` | `<realm>\<char>\SavedVariables\Journeykeeper.lua` | Per-character caches; also captured inside snapshots |

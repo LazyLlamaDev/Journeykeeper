@@ -103,7 +103,7 @@ Memory figures depend on the version, settings and content. Where no credible so
 | Plater, Altoholic, TomTom, RestedXP | unknown (no credible measurement found) | unknown |
 
 **Expectation for Journeykeeper:**
-- **Memory:** about 1–2 MB for a 10 h chronicle, about 8 MB at 100 h, and about 35–45 MB only after around 1000 h, almost all of it the player's own saved history plus backups.
+- **Memory:** about 1–2 MB for a 10 h journal, about 8 MB at 100 h, and about 35–45 MB only after around 1000 h, almost all of it the player's own saved history plus backups.
 - **CPU:** effectively zero per frame while idle. On the order of microseconds per handled event and per tooltip. Spikes only when opening the journal or map, and at logout when backing up.
 
 ## How to measure in game

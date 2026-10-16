@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.0
+- Echo popup hint no longer clipped: short text ("Click: open · Right-click: options"), wraps within the popup and leaves room for the camera button; "Shift-drag to move" shows while hovering.
+- Wording: "chronicle" replaced by "journal" in all visible text (search box "Search the journal...", Data & Backups, friend echoes, map pin tooltip, restore prompts). Saved data keys are unchanged.
+
 ## v0.6.9
 - Friends & Sharing: settings are one column; "What to share" and "Accept from" now sit below "Incoming".
 - Friends & Sharing / Data & Backups: content scales to the panel width (down to 80%), with a horizontal scrollbar (also Shift + wheel) when still wider; list action buttons fit inside their lists.

@@ -297,7 +297,7 @@ function D.Load()
   if db == nil then
     if D.LatestCount() > 0 then
       D.state, D.writable, D.reason = "empty_with_backup", false, "data missing but backups exist"
-      warn("Journeykeeper: your saved chronicle is missing but backups exist. Nothing was overwritten. Open Settings > Data & Backups to restore (or start fresh).")
+      warn("Journeykeeper: your saved journal is missing but backups exist. Nothing was overwritten. Open Settings > Data & Backups to restore (or start fresh).")
       if StaticPopup_Show then StaticPopup_Show("JOURNEYKEEPER_RESTORE_OFFER") end
       return C.InitDB({}, cdb)
     end
@@ -444,6 +444,6 @@ end
 C.On("PLAYER_LOGOUT", function() if D.writable then D.Snapshot("logout") end end) -- also fires on /reload
 if StaticPopupDialogs then
   StaticPopupDialogs.JOURNEYKEEPER_RELOAD = { text = "Journeykeeper data restored. Reload the UI now?", button1 = RELOADUI or "Reload", button2 = CANCEL or "Later", OnAccept = function() ReloadUI() end, timeout = 0, whileDead = true, hideOnEscape = true }
-  StaticPopupDialogs.JOURNEYKEEPER_RESTORE_OFFER = { text = "Journeykeeper: your saved chronicle is missing, but a backup exists.\nRestore the newest backup?", button1 = "Restore", button2 = "Start fresh",
+  StaticPopupDialogs.JOURNEYKEEPER_RESTORE_OFFER = { text = "Journeykeeper: your saved journal is missing, but a backup exists.\nRestore the newest backup?", button1 = "Restore", button2 = "Start fresh",
     OnAccept = function() local l = D.List(); if l[1] then D.Restore(l[1].snap) end end, OnCancel = function() D.StartFresh() end, timeout = 0, whileDead = true }
 end

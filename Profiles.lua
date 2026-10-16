@@ -62,7 +62,7 @@ function PR.Show(name)
   if not C.set.profiles then C.Print("Person profiles are turned off in Settings"); return end
   if not name or name == "" then name = UnitExists("target") and S(UnitName("target")) end
   local p = PR.Find(name)
-  if not p then C.Print("no one by that name in your chronicle yet"); return end
+  if not p then C.Print("no one by that name in your journal yet"); return end
   if not card then
     card = CreateFrame("Frame", "JourneykeeperProfileCard", UIParent, "BackdropTemplate")
     card:SetSize(320, 300); card:SetPoint("CENTER", 300, 0); card:SetFrameStrata("DIALOG"); card:EnableMouse(true); card:SetMovable(true)

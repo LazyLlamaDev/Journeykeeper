@@ -4,7 +4,7 @@
 ## X-Website: https://github.com/LazyLlamaDev/Journeykeeper
 ## X-License: All Rights Reserved
 ## Author: LazyLlama
-## Version: 0.6.9
+## Version: 0.7.0
 ## SavedVariables: JourneykeeperDB, JourneykeeperBackupDB
 ## OptionalDeps: Journeykeeper_Vault
 ## SavedVariablesPerCharacter: JourneykeeperCharDB

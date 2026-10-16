@@ -70,7 +70,17 @@ local function build()
   f:SetScript("OnLeave", function() if not f:IsMouseOver() then f.x:Hide() end end)
   f.x = CreateFrame("Button", nil, f, "UIPanelCloseButtonNoScripts"); f.x:SetSize(22, 22); f.x:SetPoint("TOPRIGHT", -6, -6); f.x:Hide()
   f.x:SetScript("OnClick", function() if T.moveMode then T.moveMode = false; C.Print("popup position locked") end; holdToken = nil; f.dismiss() end)
-  f.hint = f:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall"); f.hint:SetPoint("BOTTOMRIGHT", -16, 10)
+  -- v0.7.0: the hint sits between the left edge and the camera button, wraps to 2 lines max, and is short;
+  -- "Shift-drag to move" is shown while hovering (it was clipped as one long line).
+  f.hint = f:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall"); f.hint:SetPoint("BOTTOMLEFT", 16, 10); f.hint:SetPoint("BOTTOMRIGHT", -40, 10)
+  f.hint:SetJustifyH("RIGHT"); f.hint:SetWordWrap(true); if f.hint.SetMaxLines then f.hint:SetMaxLines(2) end
+  f:HookScript("OnEnter", function() if not T.moveMode then f.hint:SetText("Shift-drag to move") end end)
+  f:HookScript("OnLeave", function() if not f:IsMouseOver() and f.hintText then f.hint:SetText(f.hintText) end end)
+end
+
+function T.HintText(item)
+  if T.moveMode then return "Drag to move · X to lock" end
+  return (item and item.entry) and "Click: open · Right-click: options" or "Right-click: options"
 end
 
 function T.Next()
@@ -80,7 +90,8 @@ function T.Next()
   busy = true; f.item = item
   if C.Photo and not cam then cam = C.Photo.Button(f, function() return f.item and f.item.entry end); cam:SetPoint("BOTTOMRIGHT", -14, 10) end
   if cam then cam:SetShown(C.set.photoMode and item.entry ~= nil) end
-  f.hint:SetText(T.moveMode and "drag to move  ·  X or /jkp toast move to lock" or (item.entry and "click: open  ·  right-click: options  ·  shift-drag: move" or "right-click: options  ·  shift-drag: move"))
+  f.hintText = T.HintText(item)
+  f.hint:SetText(f.hintText)
   local cat = C.CATS[item.cat] or C.CATS.zone
   local r, g, b = unpack(cat.color)
   local dark = C.set.toastStyle == "dark"

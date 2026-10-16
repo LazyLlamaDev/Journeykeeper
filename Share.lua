@@ -150,10 +150,10 @@ function handlers.MS(sender, f, channel)
     if SH.OnPeersChanged then SH.OnPeersChanged() end
     C.Emit("shared_echo", format("You and %s share a memory: %s, on the same day.", displayName(sender), subject), { guidFriend = sender, entryRef = idx },
       C.set.shareSharedToasts and { title = "A shared memory", key = "shared" .. sender .. subject .. day, force = true, meta = { entry = idx, first = true },
-        text = format("You and %s both faced %s on %s. Two chronicles, one memory.", displayName(sender), subject, C.dateStr(mine.t)) } or nil)
+        text = format("You and %s both faced %s on %s. Two journals, one memory.", displayName(sender), subject, C.dateStr(mine.t)) } or nil)
   else
-    C.Emit("friend_milestone", format("From %s's chronicle: %s", displayName(sender), text), { friend = sender },
-      C.set.shareToasts and { title = "A friend's chronicle", key = "fm" .. sender .. id .. subject, text = text } or nil)
+    C.Emit("friend_milestone", format("From %s's journal: %s", displayName(sender), text), { friend = sender },
+      C.set.shareToasts and { title = "A friend's journal", key = "fm" .. sender .. id .. subject, text = text } or nil)
   end
 end
 

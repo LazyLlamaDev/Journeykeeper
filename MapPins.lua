@@ -18,7 +18,7 @@ local function acquire(canvas)
       GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
       GameTooltip:AddLine(self.title, 1, 0.82, 0.3)
       GameTooltip:AddLine(self.text, 0.9, 0.85, 0.75, true)
-      if self.entry then GameTooltip:AddLine("Click to open in your chronicle", 0.6, 0.6, 0.6) end
+      if self.entry then GameTooltip:AddLine("Click to open in your journal", 0.6, 0.6, 0.6) end
       GameTooltip:Show()
     end)
     pin:SetScript("OnLeave", function() GameTooltip:Hide() end)

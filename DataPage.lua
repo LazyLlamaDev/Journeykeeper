@@ -92,7 +92,7 @@ function DP.Build(parentCategory)
   local function content()
   local title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"); title:SetPoint("TOPLEFT", 16, -16); title:SetText("Data & Backups")
   local note = panel:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall"); note:SetPoint("TOPLEFT", 16, -38)
-  note:SetText("Your chronicle is backed up on every logout/reload into two separate files. Nothing is ever deleted; damaged items go to quarantine.")
+  note:SetText("Your Journeykeeper journal is backed up on every logout/reload into two separate files. Nothing is ever deleted; damaged items go to quarantine.")
   local sf = CreateFrame("ScrollFrame", nil, panel, "UIPanelScrollFrameTemplate"); DP.sf = sf; sf:SetPoint("TOPLEFT", 8, -58); sf:SetPoint("BOTTOMRIGHT", -30, 8)
   local c = CreateFrame("Frame", nil, sf); c:SetSize(720, 760); sf:SetScrollChild(c) DP.content = c
   statusFS = c:CreateFontString(nil, "OVERLAY", "GameFontHighlight"); statusFS:SetPoint("TOPLEFT", 8, -4)
