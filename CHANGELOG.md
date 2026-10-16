@@ -1,7 +1,6 @@
 # Changelog
 
 ## v0.7.1
-- **New look: Parchment (default).** Aged parchment pages with an ornate inked border in the journal (all chapters, including Fellowship), parchment memory cards, and echo popups with a compass wax seal. Dark ink text for readability; the golden book stays. Prefer the old look? Settings > Look > "Journal layout / theme" or `/jkp layout classic` (also `/jkp theme`); `/jkp layout parchment` switches back. Switching applies instantly. Cosmetic only: one new setting, no memories touched.
 - **Detail presets.** A one-time picker (and Settings > Detail preset, `/jkp preset`) with Essentials, Storyteller and Chronicler. A preset only sets existing settings: echo frequency, which events pop up as toasts and what is recorded. Changing any setting afterwards shows "custom". Existing journals keep every setting and get the picker once as an optional offer.
 - **Key bindings.** New: Open the journey map, Quick note, Open the Fellowship page (under Key Bindings > AddOns > Journeykeeper, next to journal, photo mode and profile).
 - **Addon Compartment.** Journeykeeper appears in the Addon Compartment: click opens the journal, right-click opens Settings, Shift-click writes a quick note; the tooltip shows new echoes.
@@ -9,9 +8,10 @@
 - **Fellowship.** Remembers the people you group with: name, realm and class only, plus when and where you first met, time together, shared dungeon runs and boss kills. New journal chapter "Fellowship" with search and sorting. Grouping again with someone you ran a dungeon with brings back an echo ("You ran Deadmines with X on ..."). Settings: on/off, leave out guild members, echoes, retention (default: keep forever, snapshot before anything is removed) and a never-record list. Never sent anywhere.
 - Journeykeeper_Forever.toc and Journeykeeper_Camelot.toc are shipped next to the main toc, so a renamed Forever client still finds the addon.
 - Data: schema 8 (additive: `fellowship` table). A pre-migration snapshot is taken automatically; nothing is removed or overwritten.
-- Needs a full client restart once (new key bindings, toc files and theme textures); later changes only need /reload.
+- Needs a full client restart once (new key bindings and toc files); later changes only need /reload.
 
-## v0.7.0
+## v0.7.0 — first public beta
+- First public beta for WoW Forever (Interface 16001): Echoes journal book with Timeline, Echoes, Arcs and Chapters; echo toasts; Journey map with echo pins (Kalimdor + Eastern Kingdoms); fights & death reports; photo mode; Friends & Sharing; Data & Backups with optional Vault companion. All data stays local.
 - Echo popup hint no longer clipped: short text ("Click: open · Right-click: options"), wraps within the popup and leaves room for the camera button; "Shift-drag to move" shows while hovering.
 - Wording: "chronicle" replaced by "journal" in all visible text (search box "Search the journal...", Data & Backups, friend echoes, map pin tooltip, restore prompts). Saved data keys are unchanged.
 

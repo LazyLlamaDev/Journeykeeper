@@ -20,7 +20,6 @@ Options.lua
 Weight.lua
 Menu.lua
 Templates.lua
-Theme.lua
 Toast.lua
 Echoes.lua
 Logger.lua

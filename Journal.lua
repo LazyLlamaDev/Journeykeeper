@@ -8,11 +8,6 @@ local PAGE_W, PAGE_H = 400, 382                  -- text area per page
 local LEFT_X, RIGHT_X, TOP_Y = 64, 536, -58
 local FONT_HEAD, FONT_BODY = "Fonts\\MORPHEUS.TTF", "Fonts\\FRIZQT__.TTF"
 local INK, RED, FADED = { 0.24, 0.14, 0.05 }, { 0.5, 0.1, 0.04 }, { 0.45, 0.35, 0.22 }
--- v0.7.1: the parchment theme's paper is more textured, so ink is a touch darker there (tables are updated in place)
-local function themeInk(p)
-  INK[1], INK[2], INK[3] = unpack(p and { 0.2, 0.11, 0.03 } or { 0.24, 0.14, 0.05 })
-  FADED[1], FADED[2], FADED[3] = unpack(p and { 0.34, 0.24, 0.12 } or { 0.45, 0.35, 0.22 })
-end
 local TABS = { { "Chapters", 0.55, 0.12, 0.1 }, { "Timeline", 0.18, 0.3, 0.55 }, { "Firsts", 0.75, 0.6, 0.15 }, { "Deaths", 0.25, 0.25, 0.25 },
   { "Allies", 0.2, 0.45, 0.25 }, { "Arcs", 0.45, 0.25, 0.55 }, { "Echoes", 0.7, 0.4, 0.2 }, { "Journey", 0.25, 0.5, 0.55 }, { "Warband", 0.6, 0.5, 0.2 }, { "Fellowship", 0.3, 0.55, 0.45 } }
 -- Modules provide whole chapters: J.PROVIDERS[tab] = { enabled = fn, build = fn(blocks, search, helpers) }
@@ -672,18 +667,12 @@ local function create()
   if type(bp) == "table" and bp[1] then win:ClearAllPoints(); win:SetPoint(bp[1], UIParent, bp[2] or bp[1], tonumber(bp[3]) or 0, tonumber(bp[4]) or 0) end
   win:HookScript("OnShow", function() J.ApplyScale() end)
   tinsert(UISpecialFrames, "JourneykeeperJournal")
-  local bg = win:CreateTexture(nil, "BACKGROUND"); C.Theme.Skin(bg, "book"); bg:SetAllPoints() -- v0.7.1: themed (parchment/classic)
+  local bg = win:CreateTexture(nil, "BACKGROUND"); bg:SetTexture(M .. "book"); bg:SetAllPoints()
   local close = CreateFrame("Button", nil, win, "UIPanelCloseButtonNoScripts"); close:SetPoint("TOPRIGHT", -2, -2); close:SetScript("OnClick", function() win:Hide() end)
   if C.Photo then win.cam = C.Photo.Button(win, function() return C.lastEchoEntry or C.lastEntry end); win.cam:SetPoint("RIGHT", close, "LEFT", -4, 0)
     win:HookScript("OnShow", function() win.cam:SetShown(C.set.photoMode) end) end
   measure = win:CreateFontString(nil, "OVERLAY"); measure:SetFont(FONT_BODY, 13, ""); measure:SetSpacing(2); measure:Hide()
-  themeInk(C.Theme.IsParchment())
   win.left, win.right = makePage(LEFT_X), makePage(RIGHT_X)
-  C.Theme.OnChange(function(p)
-    themeInk(p)
-    for _, pg in ipairs({ win.left, win.right }) do pg.num:SetTextColor(unpack(FADED)); pg.tStats:SetTextColor(unpack(FADED)); pg.tSub:SetTextColor(unpack(INK)); pg.tBody:SetTextColor(unpack(INK)) end
-    if win:IsShown() then J.Refresh() end
-  end)
   -- page flip: fade + slide both pages, swap content at midpoint
   local content = { win.left, win.right }
   -- v0.6.8: the old Translation animation ran on the whole book frame, so every wheel step / page turn made the
@@ -987,10 +976,6 @@ function J.ShowDetail(b, anchor)
     det.text = det:CreateFontString(nil, "OVERLAY", "GameFontHighlight"); det.text:SetPoint("TOPLEFT", det.meta, "BOTTOMLEFT", 0, -8); det.text:SetWidth(352); det.text:SetJustifyH("LEFT"); det.text:SetJustifyV("TOP")
     det.open = CreateFrame("Button", nil, det, "UIPanelButtonTemplate"); det.open:SetSize(150, 22); det.open:SetPoint("BOTTOMLEFT", 12, 10); det.open:SetText("Show in Timeline")
     det.more = CreateFrame("Button", nil, det, "UIPanelButtonTemplate"); det.more:SetSize(110, 22); det.more:SetPoint("BOTTOMRIGHT", -12, 10); det.more:SetText("Options...")
-    -- v0.7.1: parchment card inside the frame (theme); dark ink text on it, classic keeps the old colors
-    det.paper = det:CreateTexture(nil, "BORDER", nil, 7); det.paper:SetPoint("TOPLEFT", 4, -24); det.paper:SetPoint("BOTTOMRIGHT", -4, 4)
-    C.Theme.Skin(det.paper, "card", function(t, p) t:SetShown(p); t:SetTexCoord(0, 1, 0, 1)
-      det.text:SetTextColor(unpack(p and INK or { 1, 1, 1 })); det.meta:SetTextColor(unpack(p and RED or { 1, 0.82, 0 })) end)
   end
   if det.TitleText then det.TitleText:SetText(b.title or (C.CATS[b.cat or ""] or {}).label or "Memory") end
   local meta = {}

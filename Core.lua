@@ -21,7 +21,7 @@ C.CAT_ORDER = {}
 for _, c in ipairs(C.EVENT_CATS) do tinsert(C.CAT_ORDER, c.key) end
 C.CHANNELS = { "toast", "chat", "echoes", "tooltip", "journal", "off" }
 
-local defaults = { catBoost = {}, ev = {}, channel = {}, intensity = "present", sound = true, toastStyle = "parchment", theme = "parchment", quietInstances = true, mapPins = false, collapsed = {} }
+local defaults = { catBoost = {}, ev = {}, channel = {}, intensity = "present", sound = true, toastStyle = "parchment", quietInstances = true, mapPins = false, collapsed = {} }
 for _, e in ipairs(C.EVENTS) do defaults.ev[e.id] = e.on; defaults.channel[e.id] = e.channel end
 C.defaults = defaults
 
@@ -256,7 +256,6 @@ SlashCmdList.JOURNEYKEEPER = function(msg)
   elseif cmd == "note" or cmd == "notes" then C.Notes.Command(rest)
   elseif cmd == "allynote" then C.AddNote(rest)
   elseif cmd == "fellowship" or cmd == "fellows" then C.Journal.OpenTab("Fellowship")
-  elseif cmd == "layout" or cmd == "theme" then C.Theme.Command(rest)
   elseif cmd == "preset" then if rest ~= "" and C.Presets.VALUES[rest:lower()] then C.Presets.Apply(rest:lower()) else C.Presets.ShowPicker(true) end
   elseif cmd == "test" then C.Toast.Test()
   elseif cmd == "toast" then
