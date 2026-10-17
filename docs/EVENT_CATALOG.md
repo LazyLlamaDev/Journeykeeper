@@ -130,6 +130,7 @@ Generated from the addon's event list. Feasibility is judged against the WoW For
 | `quick_note` | Quick note written into the journal (zone, time, character) | /jkp note, /note, minimap Shift-click, key binding | OK | on | journal | yes |
 | `fellow_first` | Fellowship: met a new fellow traveller in a group | GROUP_ROSTER_UPDATE (name, realm, class only) | OK | on | journal | yes |
 | `fellow_echo` | Fellowship: grouped again with someone you ran a dungeon or killed a boss with | GROUP_ROSTER_UPDATE vs fellowship runs/kills | OK | on | toast | yes |
+| `fellow_reunion` | Fellowship: reunion after days apart, with what happened since (and a trusted friend's shared milestones) | GROUP_ROSTER_UPDATE + gap >= reunionDays; optional JKPR RS/RR exchange with trusted friends | OK | on | toast | yes |
 | `guild_join` | Joined a guild | PLAYER_GUILD_UPDATE + GetGuildInfo | OK | on | toast | yes |
 | `friend_add` | Added a friend | FRIENDLIST_UPDATE diff | partial | off | journal |  |
 | `trade_first` | First trade with a player | TRADE_CLOSED + name | partial | off | journal |  |
@@ -190,6 +191,7 @@ Generated from the addon's event list. Feasibility is judged against the WoW For
 | id | Description | Trigger | Feasibility | Default | Channel | Impl |
 |---|---|---|---|---|---|---|
 | `photo_taken` | Photo mode screenshot linked to a memory | Screenshot() + SCREENSHOT_SUCCEEDED, out of combat | OK | on | journal | yes |
+| `auto_screenshot` | Automatic screenshot taken at a big moment (file name linked to the memory) | Screenshot() a moment after boss/dungeon firsts, level milestones, reunions (achievements optional) + SCREENSHOT_SUCCEEDED/FAILED | OK | on | journal | yes |
 | `fun_fall` | Survived a long fall | IsFalling duration >3 s, then not dead | OK | on | chat | yes |
 | `fun_afk_place` | Went AFK in a notable place | PLAYER_FLAGS_CHANGED UnitIsAFK + subzone | OK | on | journal | yes |
 | `fun_drown_close` | Ran out of breath but survived | MIRROR_TIMER_STOP BREATH without death | partial | off | chat |  |

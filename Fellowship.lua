@@ -55,6 +55,69 @@ function F.EchoText(p)
   return nil
 end
 
+-- v0.7.2 reunion: what happened on OUR side since we last played together (from our own journal), plus, for a
+-- trusted friend who also runs Journeykeeper with sharing on, up to 5 of their shared milestones since then.
+local SINCE_IDS = { zone_first_char = "zones", dungeon_enter_first = "dungeons", instance_complete = "dungeons", boss_first_kill = "bosses" }
+function F.Since(since, ck)
+  local out = { zones = 0, dungeons = 0, bosses = 0, lastBoss = nil, lastZone = nil }
+  for i = #C.db.entries, 1, -1 do
+    local e = C.db.entries[i]
+    if (e.t or 0) <= since then break end
+    local k = SINCE_IDS[e.id]
+    if k and (not ck or e.char == ck) then
+      out[k] = out[k] + 1
+      if k == "bosses" and not out.lastBoss then out.lastBoss = e.boss end
+      if k == "zones" and not out.lastZone then out.lastZone = e.zone end
+    end
+  end
+  return out
+end
+local function plural(n, w) return format("%d %s", n, n == 1 and w or (w:sub(-1) == "s" and (w .. "es") or (w .. "s"))) end
+function F.ReunionText(p, now, theirs)
+  now = now or time()
+  local days = floor((now - (p.last or now)) / 86400)
+  local s = F.Since(p.last or now, C.charKey())
+  local parts = {}
+  local lvl, was = UnitLevel("player") or 0, tonumber(p.lastLevel)
+  if was and p.lastChar == C.charKey() and lvl > was then parts[#parts + 1] = format("grew from level %d to %d", was, lvl) end
+  if s.zones > 0 then parts[#parts + 1] = "found " .. plural(s.zones, "new place") .. (s.lastZone and (" (lately " .. s.lastZone .. ")") or "") end
+  if s.dungeons > 0 then parts[#parts + 1] = "saw " .. plural(s.dungeons, "dungeon") end
+  if s.bosses > 0 then parts[#parts + 1] = "defeated " .. plural(s.bosses, "boss") .. (s.lastBoss and (", last " .. s.lastBoss) or "") end
+  local txt = format("%d day%s since you last travelled with %s.", days, days == 1 and "" or "s", p.name or "?")
+  if #parts > 0 then txt = txt .. " Since then you " .. table.concat(parts, ", ") .. "." else txt = txt .. " Your road has been quiet since." end
+  if theirs and #theirs > 0 then
+    local t = {}
+    for i = 1, math.min(5, #theirs) do t[i] = theirs[i] end
+    txt = txt .. format("\nFrom %s's journal: %s", p.name or "?", table.concat(t, " "))
+  end
+  return txt
+end
+local reunionWait = {} -- [full] = { p, t } while a trusted friend's reply is awaited (max 4 s)
+local function fireReunion(full, p, theirs)
+  local txt = F.ReunionText(p, nil, theirs)
+  C.Emit("fellow_reunion", txt, { fellow = full }, { title = "A reunion", key = "f" .. full, force = true, text = txt })
+end
+-- called by Share when a trusted friend answered our reunion request
+function F.OnReunionReply(full, lines)
+  local w = reunionWait[full]; if not w then return false end
+  reunionWait[full] = nil
+  fireReunion(full, w.p, lines)
+  return true
+end
+function F.StartReunion(full, p, prevSeen, now, prevLevel, prevChar)
+  p.reunionAt = now
+  local snap = { name = p.name, last = prevSeen, lastLevel = prevLevel, lastChar = prevChar }
+  local SH = C.Share
+  if C.set.reunionShared and SH and C.set.shareEnabled and SH.IsTrusted(full) and SH.RequestSince then
+    reunionWait[full] = { p = snap, t = now }
+    SH.RequestSince(full, prevSeen)
+    C_Timer.After(4, function() local w = reunionWait[full]; if w then reunionWait[full] = nil; fireReunion(full, w.p, nil) end end)
+  else
+    fireReunion(full, snap, nil)
+  end
+  return true
+end
+
 -- called from Logger's roster handler for every newly seen group member. Returns true if an echo was fired.
 function F.OnJoin(unit, full, classFile, inGuild)
   if not C.set.fellowship or not full or full == "?" then return false end
@@ -71,13 +134,21 @@ function F.OnJoin(unit, full, classFile, inGuild)
   end
   p.class = classFile or p.class
   local prevSeen = p.last
+  local prevLevel, prevChar = p.myLevel, p.myChar -- what we were when we last met (for the reunion)
   p.groups = (p.groups or 0) + 1; p.last = now; p.lastZone = GetRealZoneText()
+  p.myLevel, p.myChar = UnitLevel("player"), me() -- our own level/character at this meeting
   present[full] = { start = now }
   local inst = instName()
   if inst then addRun(p, inst, now) end
   if isNew then
     C.Emit("fellow_first", format("%s met %s for the first time, in %s.", (me():match("^[^-]+")), name, p.firstZone or "?"), { fellow = full })
     return false
+  end
+  -- reunion after a long gap replaces the normal fellowship echo (same 6 h throttle, never both)
+  local gapDays = tonumber(C.set.reunionDays) or 3
+  if C.set.fellowReunion and prevSeen and (now - prevSeen) >= gapDays * 86400 and (now - (p.echoed or 0)) > ECHO_GAP then
+    p.echoed = now
+    return F.StartReunion(full, p, prevSeen, now, prevLevel, prevChar)
   end
   if C.set.fellowEchoes and prevSeen and (now - prevSeen) > 600 and (now - (p.echoed or 0)) > ECHO_GAP then
     local txt = F.EchoText(p)

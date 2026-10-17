@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.7.2
+- **Fellowship tooltips.** Hovering a player from your Fellowship adds two quiet lines: runs together and the last one ("3 runs together · last: Deadmines, Oct 2026") and where you first met. Excluded and archived people never show. Bosses you have defeated before get a memory hint ("You first defeated Hogger on 12 Oct 2026"). Both can be switched off (Settings > Fellowship).
+- **Auto screenshots at big moments.** A normal game screenshot a moment after a first boss kill, a first dungeon completion, a level milestone or a reunion (achievements optional). The memory remembers the file name (WoWScrnShot_MMDDYY_HHMMSS) and the journal shows "Screenshot taken 21:04 (Screenshots\\...)"; the Journey chapter lists them under Snapshots. Settings: master switch, each moment, delay, at most one every 60 s, and an option to keep the Journeykeeper popup out of the picture. Never during photo mode.
+- **Your journey so far.** The Journey chapter opens with a replay of your road on the map: Play / Pause, speed 1x/2x/4x, this character or the whole warband, Restart. Pins appear one by one with a short caption, and the map switches continent when your road does. It pauses when the journal is closed.
+- **Reunions.** Grouping again with a fellow after a few days apart (3 by default) brings a reunion echo instead of the normal fellowship echo: how long it has been and what happened on your side since (levels, new places, dungeons, bosses). With a trusted friend who also uses Journeykeeper and friend sharing, it adds up to 5 of their shared milestones since your last time together. Only for trusted friends, only the milestone kinds they already share, opt-in.
+- Data: schema 9 (additive: `shots` list, screenshot links on memories). A pre-migration snapshot is taken automatically; nothing is removed or overwritten.
+- New files (AutoShot.lua, Replay.lua): needs a full client restart once.
+
 ## v0.7.1
 - **Detail presets.** A one-time picker (and Settings > Detail preset, `/jkp preset`) with Essentials, Storyteller and Chronicler. A preset only sets existing settings: echo frequency, which events pop up as toasts and what is recorded. Changing any setting afterwards shows "custom". Existing journals keep every setting and get the picker once as an optional offer.
 - **Key bindings.** New: Open the journey map, Quick note, Open the Fellowship page (under Key Bindings > AddOns > Journeykeeper, next to journal, photo mode and profile).

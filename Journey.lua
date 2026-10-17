@@ -22,10 +22,17 @@ function JY.Place(mapID)
   local res = false
   if cont then
     local l, r, t, b = C.API("C_Map.GetMapRectOnMap", mapID, cont)
-    if l and r and t and b then res = { cont = cont, cname = cname, x = (l + r) / 2, y = (t + b) / 2 } end
+    if l and r and t and b then res = { cont = cont, cname = cname, x = (l + r) / 2, y = (t + b) / 2, l = l, r = r, t = t, b = b } end
   end
   placeCache[mapID] = res
   return res or nil
+end
+
+-- v0.7.2: exact continent position of a point inside a zone (x, y in 0..100 as stored on memories)
+function JY.PlacePoint(mapID, x, y)
+  local pl = JY.Place(mapID); if not pl then return nil end
+  if not (x and y and pl.l) then return pl end
+  return { cont = pl.cont, cname = pl.cname, x = pl.l + (pl.r - pl.l) * x / 100, y = pl.t + (pl.b - pl.t) * y / 100 }
 end
 
 -- Stylized continent art (media/map_*.tga, drawn by tools/make_maps.py in the same 0..1 continent space
@@ -95,6 +102,10 @@ function JY.Build(blocks, search, H)
   local chars = {}
   for ck in pairs(C.db.chars) do chars[#chars + 1] = ck end
   table.sort(chars, function(a, b) if a == C.charKey() then return true elseif b == C.charKey() then return false end return a < b end)
+  if C.set.replay and C.set.journeySketch and C.Replay and search == "" then
+    tinsert(blocks, { kind = "chapterhead", text = "Your journey so far" })
+    tinsert(blocks, C.Replay.Block())
+  end
   for _, ck in ipairs(chars) do
     if search == "" or ck:lower():find(search:lower(), 1, true) then
       local stops = JY.Stops(ck)

@@ -166,6 +166,20 @@ C.On("SCREENSHOT_FAILED", function() if PH.pending then PH.Done(false) end end)
 
 -- Journal: album section (appended to the Journey chapter)
 function PH.AlbumBlocks(blocks, search)
+  -- v0.7.2: automatic screenshots at big moments (newest first, max 30 rows)
+  local shots = C.db.shots or {}
+  if #shots > 0 then
+    tinsert(blocks, { kind = "chapterhead", text = "Snapshots" })
+    tinsert(blocks, { kind = "para", dropcap = true, text = "Taken automatically at big moments. Each card names the file in your Screenshots folder (the time can differ by a second)." })
+    local n = 0
+    for i = #shots, 1, -1 do
+      local s = shots[i]
+      if search == "" or ((s.text or "") .. (s.zone or "")):lower():find(search:lower(), 1, true) then
+        n = n + 1; if n > 30 then break end
+        tinsert(blocks, C.Journal.helpers.row({ cat = "fun", t = s.t, title = "Snapshot", text = format("%s  ·  Screenshots\\%s", (s.text or "A big moment"):gsub("|c%x%x%x%x%x%x%x%x(.-)|r", "%1"), s.file or "?") }))
+      end
+    end
+  end
   if #C.db.photos == 0 then return end
   tinsert(blocks, { kind = "chapterhead", text = "Album" })
   tinsert(blocks, { kind = "para", dropcap = true, text = "The game cannot show pictures inside the book; each card names the file in your Screenshots folder. The HTML export shows the real images." })

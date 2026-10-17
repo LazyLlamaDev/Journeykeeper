@@ -3,7 +3,7 @@
 local _, C = ...
 local D = {}; C.Data = D
 local Codec = C.Codec
-D.SCHEMA = 8                 -- bump with every data-shape change, add a migration below
+D.SCHEMA = 9                 -- bump with every data-shape change, add a migration below
 D.RING = 2                   -- ring snapshots per backup file (+ one "latest" slot + pinned pre-migration)
 D.state, D.writable, D.warnings = "init", false, {}
 
@@ -73,6 +73,10 @@ D.MIGRATIONS = {
     -- presets: an existing journal keeps every setting; it is only labelled "custom" (picker offered once)
     if type(db.settings) == "table" and db.settings.preset == nil then db.settings.preset = "custom"; db.settings.presetOffer = true end
   end },
+  [9] = { name = "v0.7.2 auto screenshots + reunions", run = function(db)
+    ensure(db, "shots") -- automatic screenshot records (file name, time, linked memory uid)
+    -- fellows: nothing removed; reunion bookkeeping fields (lastLevel, lastChar) are filled on the next grouping
+  end },
 }
 function D.DetectSchema(db)
   if type(db.schema) == "number" then return db.schema end
@@ -116,7 +120,7 @@ local function quarantine(db, where, value, why)
   tinsert(db.quarantine, { t = now(), where = where, why = why, value = value, addon = addonVersion() })
   return #db.quarantine
 end
-local LISTS = { entries = true, deathSpots = true, diary = true, arcs = true, photos = true, deathReports = true, quests = true }
+local LISTS = { entries = true, deathSpots = true, diary = true, arcs = true, photos = true, deathReports = true, quests = true, shots = true }
 local MAPS = { "settings", "firstZone", "firstSub", "deathCount", "players", "firstLevel", "firstDungeon", "stats", "echoSeen", "family", "trail", "idCount", "tplRecent", "muted", "chars", "records", "share", "fellowship" }
 function D.Validate(db)
   local fixed, q = 0, 0
@@ -142,7 +146,7 @@ function D.Validate(db)
       db.entries[i] = { id = "_quarantined", cat = "fun", t = type(e) == "table" and tonumber(e.t) or 0, text = "(a damaged memory was set aside - see Data & Backups)", quarantined = qi, char = (type(e) == "table" and type(e.char) == "string" and e.char) or "?", uid = "Q" .. qi }
     end
   end
-  for _, k in ipairs({ "deathSpots", "diary", "photos", "deathReports", "quests" }) do
+  for _, k in ipairs({ "deathSpots", "diary", "photos", "deathReports", "quests", "shots" }) do
     local list = db[k]
     if list then
       local keep = {}
@@ -436,7 +440,7 @@ function D.Import(str, into)
   end
   dedupeList("deathSpots", function(v) return tostring(v.t) .. tostring(v.char) end, function(v) v.entry = v.entry and map[v.entry] end)
   local function byUid(v) return tostring(v.uid or (tostring(v.t) .. tostring(v.char))) end
-  dedupeList("photos", byUid); dedupeList("deathReports", byUid); dedupeList("quests", byUid)
+  dedupeList("photos", byUid); dedupeList("deathReports", byUid); dedupeList("quests", byUid); dedupeList("shots", byUid)
   dedupeList("diary", function(v) return tostring(v.t) .. tostring(v.text) end, function(v) v.entry = v.entry and map[v.entry] end)
   dedupeList("arcs", function(v) return tostring(v.name) .. tostring(v.t) end, function(v)
     local ne = {}; for _, idx in ipairs(v.entries or {}) do if map[idx] then ne[#ne + 1] = map[idx] end end; v.entries = ne end)

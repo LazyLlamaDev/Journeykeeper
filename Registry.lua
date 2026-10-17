@@ -79,6 +79,8 @@ C.EVENTS = {
   { id = "quick_note", cat = "group", desc = "Quick note written into the journal (zone, time, character)", feas = "OK", on = true, channel = "journal" },
   { id = "fellow_first", cat = "group", desc = "Fellowship: met a new fellow traveller in a group", feas = "OK", on = true, channel = "journal" },
   { id = "fellow_echo", cat = "group", desc = "Fellowship: grouped again with someone you ran a dungeon or killed a boss with", feas = "OK", on = true, channel = "toast" },
+  { id = "fellow_reunion", cat = "group", desc = "Fellowship: reunion after days apart, with what happened since (and a trusted friend's shared milestones)", feas = "OK", on = true, channel = "toast" },
+  { id = "auto_screenshot", cat = "fun", desc = "Automatic screenshot taken at a big moment (file name linked to the memory)", feas = "OK", on = true, channel = "journal" },
   { id = "guild_join", cat = "group", desc = "Joined a guild", feas = "OK", on = true, channel = "toast" },
   { id = "duel", cat = "group", desc = "Duel fought", feas = "partial", on = false, channel = "journal" },
   { id = "flight_learn", cat = "travel", desc = "New flight path discovered", feas = "OK", on = true, channel = "toast" },

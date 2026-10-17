@@ -4,7 +4,7 @@
 ## X-Website: https://github.com/LazyLlamaDev/Journeykeeper
 ## X-License: All Rights Reserved
 ## Author: LazyLlama
-## Version: 0.7.1
+## Version: 0.7.2
 ## SavedVariables: JourneykeeperDB, JourneykeeperBackupDB
 ## OptionalDeps: Journeykeeper_Vault
 ## SavedVariablesPerCharacter: JourneykeeperCharDB
@@ -38,7 +38,9 @@ FriendsPage.lua
 DataPage.lua
 Perf.lua
 Photo.lua
+AutoShot.lua
 Journey.lua
+Replay.lua
 DeathReport.lua
 Profiles.lua
 WarbandTOC.lua

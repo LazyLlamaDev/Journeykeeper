@@ -66,7 +66,8 @@ local function clean(s) return ((s or ""):gsub("|c%x%x%x%x%x%x%x%x(.-)|r", "%1")
 local function row(o) o.kind = "row"; return o end
 local function entryRow(i)
   local e = C.db.entries[i]
-  return row({ cat = e.cat, t = e.t, title = (C.CATS[e.cat or ""] or {}).label, text = (e.anchor and PIN_ICON or "") .. clean(e.text) .. (e.photo and "  |cff6b4a2a[photo]|r" or ""),
+  return row({ cat = e.cat, t = e.t, title = (C.CATS[e.cat or ""] or {}).label, text = (e.anchor and PIN_ICON or "") .. clean(e.text) .. (e.photo and "  |cff6b4a2a[photo]|r" or "")
+      .. ((C.AutoShot and C.AutoShot.Line(e)) and ("  |cff6b4a2a[" .. C.AutoShot.Line(e) .. "]|r") or ""),
     char = e.char, entries = { i }, zone = e.zone })
 end
 
@@ -888,8 +889,10 @@ function J.DrawSketch(p, b)
   if b.caption then local c = obj("label"); c:SetPoint("TOPLEFT", p, "TOPLEFT", 0, -top - H - 8); c:SetWidth(W); c:SetJustifyH("LEFT"); c:SetTextColor(unpack(FADED)); c:SetText(b.caption .. "  (wheel: zoom · drag: pan · double-click: fit)") end
 
   local clip = getClip(p)
+  p.sketchBlock = b
   clip:ClearAllPoints(); clip:SetPoint("TOPLEFT", p, "TOPLEFT", 0, -top); clip:SetSize(W, H); clip:Show()
-  local key = tostring(b.contID or b.title) .. "#" .. #(b.points or {})
+  local key = b.clipKey or (tostring(b.contID or b.title) .. "#" .. #(b.points or {}))
+  J.ReplayControls(clip, b)
   if clip.key ~= key then clip.key = key; clip.zoom, clip.ox, clip.oy = 1, 0, 0 end
   clip.W, clip.H = W, H
   for _, bt in ipairs(clip.tabs or {}) do
@@ -956,6 +959,51 @@ function J.DrawSketch(p, b)
   mapLayout(clip)
 end
 
+-- v0.7.2 replay controls (Play/Pause, speed, who, restart) + caption banner on the map; own buttons only
+function J.ReplayControls(clip, b)
+  local on = b.replay and C.Replay and true or false
+  if not rawget(clip, "rp") then
+    if not on then return end
+    local rp = CreateFrame("Frame", nil, clip); clip.rp = rp
+    rp:SetPoint("BOTTOMLEFT", clip, "BOTTOMLEFT", 0, 0); rp:SetPoint("BOTTOMRIGHT", clip, "BOTTOMRIGHT", 0, 0); rp:SetHeight(44); rp:SetFrameLevel(clip:GetFrameLevel() + 20)
+    local bg = rp:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(0.12, 0.07, 0.03, 0.72)
+    local edge = rp:CreateTexture(nil, "BORDER"); edge:SetPoint("TOPLEFT"); edge:SetPoint("TOPRIGHT"); edge:SetHeight(1); edge:SetColorTexture(0.85, 0.65, 0.3, 0.7)
+    rp.cap = rp:CreateFontString(nil, "OVERLAY"); rp.cap:SetFont(FONT_BODY, 11, ""); rp.cap:SetPoint("TOPLEFT", 6, -4); rp.cap:SetPoint("TOPRIGHT", -6, -4)
+    rp.cap:SetJustifyH("LEFT"); rp.cap:SetTextColor(0.98, 0.9, 0.72); rp.cap:SetWordWrap(false)
+    local function btn(w, x, fn, tip)
+      local bt = CreateFrame("Button", nil, rp); bt:SetSize(w, 16); bt:SetPoint("BOTTOMLEFT", rp, "BOTTOMLEFT", x, 4)
+      local bb = bt:CreateTexture(nil, "BACKGROUND"); bb:SetAllPoints(); bb:SetColorTexture(0.35, 0.18, 0.07, 0.85)
+      bt.fs = bt:CreateFontString(nil, "OVERLAY"); bt.fs:SetFont(FONT_HEAD, 11, ""); bt.fs:SetPoint("CENTER"); bt.fs:SetTextColor(1, 0.86, 0.55)
+      bt:SetScript("OnClick", fn)
+      bt:SetScript("OnEnter", function(self) bb:SetColorTexture(0.5, 0.28, 0.1, 0.9); GameTooltip:SetOwner(self, "ANCHOR_TOP"); GameTooltip:AddLine(tip); GameTooltip:Show() end)
+      bt:SetScript("OnLeave", function() bb:SetColorTexture(0.35, 0.18, 0.07, 0.85); GameTooltip:Hide() end)
+      return bt
+    end
+    rp.play = btn(52, 6, function() C.Replay.Toggle() end, "Play / pause the journey")
+    rp.speed = btn(34, 62, function() C.Replay.CycleSpeed() end, "Replay speed")
+    rp.who = btn(96, 100, function() C.Replay.CycleChars() end, "This character or the whole warband")
+    rp.restart = btn(52, 200, function() C.Replay.Restart() end, "Back to the beginning")
+    rp.restart.fs:SetText("Restart")
+    rp.state = rp:CreateFontString(nil, "OVERLAY"); rp.state:SetFont(FONT_BODY, 10, ""); rp.state:SetPoint("BOTTOMRIGHT", rp, "BOTTOMRIGHT", -6, 6); rp.state:SetTextColor(0.9, 0.8, 0.6)
+  end
+  local rp = clip.rp
+  rp:SetShown(on)
+  if not on then return end
+  rp.cap:SetText(b.replayCaption or "")
+  rp.play.fs:SetText(C.Replay.Playing() and "Pause" or "Play")
+  rp.speed.fs:SetText((C.set.replaySpeed or "1") .. "x")
+  rp.who.fs:SetText(C.set.replayChars == "all" and "All characters" or "This character")
+  rp.state:SetText(b.replayState or "")
+end
+-- redraw one sketch block in place (replay steps) without re-paginating the book; false if it is not on screen
+function J.RedrawSketch(b)
+  if not (win and win:IsShown()) then return false end
+  for _, p in ipairs({ win.left, win.right }) do
+    if rawget(p, "sketchBlock") == b and rawget(p, "mapClip") and p.mapClip:IsShown() then J.DrawSketch(p, b); return true end
+  end
+  return false
+end
+
 -- Deep link: open the Timeline at the spread containing entry index i.
 function J.OpenAt(i)
   if not win then create() end
@@ -987,6 +1035,8 @@ function J.ShowDetail(b, anchor)
   local body = b.text or ""
   local ent = b.entries and b.entries[1] and C.db.entries[b.entries[1]]
   if b.echo and ent and ent.text then body = body .. "\n\n|cffb0a080Remembered moment:|r " .. clean(ent.text) end
+  local shotLine = C.AutoShot and C.AutoShot.Line(ent)
+  if shotLine then body = body .. "\n\n|cffb0a080" .. shotLine .. "|r\nFind it in your WoW folder under _classic_beta_ (or your game folder) \\ Screenshots." end
   det.text:SetText(body)
   local linked = b.entries and #b.entries > 0
   det.open:SetShown(linked); det.more:SetShown(linked)

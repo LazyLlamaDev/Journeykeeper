@@ -18,8 +18,18 @@ Your first zone, dungeon, boss kill, rare, mount, epic and level milestones, plu
 ### 🗺️ Journey map
 A real, zoomable Kalimdor and Eastern Kingdoms map with your road through the world and your memories on it. Echoes can also show on the world map.
 
-### 📷 Photo mode
+**Your journey so far:** press Play on the map and your memories appear one by one, in order, each with a short caption. The map switches continent when your road does. Pick a speed (1x, 2x or 4x) and choose this character or your whole warband.
+
+### 📷 Photo mode & auto screenshots
 Hide the UI, frame the moment with a parchment border and caption, and take a screenshot linked to the memory. Works only out of combat.
+
+Journeykeeper can also take a normal screenshot by itself at big moments: a first boss kill, a first dungeon clear, level milestones and reunions with old companions. Achievements are optional. The memory remembers the file name, so the journal tells you which picture in your Screenshots folder belongs to it. You can turn each moment on or off, set the delay, and keep the Journeykeeper popup out of the picture.
+
+### 🧭 Fellowship
+Journeykeeper remembers the people you group with: only their name, realm and class, plus when and where you met, your time together, and the dungeons and bosses you shared. It never sends any of this anywhere.
+- Hover over a fellow and their tooltip shows "3 runs together · last: Deadmines" and where you first met. Bosses you've beaten before get a small "You first defeated…" line.
+- Group again after a few days apart and you get a reunion echo: how long it has been, and what happened on your side since (levels, new places, dungeons, bosses). If they're a trusted friend who also uses Journeykeeper with sharing on, it adds a few of their shared milestones too.
+- You can leave out guild members, never record certain names, or forget someone. Forgotten people go to an archive, so you can bring them back.
 
 ### 🤝 Friends & Sharing (opt-in, off by default)
 - Share your milestones and firsts (levels, first boss kills, rares, dungeons, epics) with friends you trust, and nobody else.

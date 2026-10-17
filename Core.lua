@@ -122,7 +122,7 @@ function C.InitDB(db, cdb)
   db.firstDungeon = db.firstDungeon or {}
   db.stats = db.stats or {}
   db.echoSeen = db.echoSeen or {}; db.diary = db.diary or {}; db.arcs = db.arcs or {}; db.family = db.family or {}; db.trail = db.trail or {}; db.idCount = db.idCount or {}; db.tplRecent = db.tplRecent or {}; db.muted = db.muted or {}; db.chars = db.chars or {}
-  db.photos = db.photos or {}; db.deathReports = db.deathReports or {}; db.quests = db.quests or {}
+  db.photos = db.photos or {}; db.deathReports = db.deathReports or {}; db.quests = db.quests or {}; db.shots = db.shots or {}
   db.fellowship = db.fellowship or {}; db.fellowship.people = db.fellowship.people or {}; db.fellowship.archive = db.fellowship.archive or {}
   -- v0.6.7: one key per character (realm spacing / early-login "?" realm produced duplicate chapters with 0 stats)
   do
@@ -202,6 +202,7 @@ function C.Emit(id, text, extra, echo)
     C.Echoes.Fire(id, echo.key, echo.text or text, echo.title, echo.force, meta)
   end
   if C.Share and C.Share.OnEmit then pcall(C.Share.OnEmit, id, e) end
+  if C.AutoShot and C.AutoShot.OnEmit then pcall(C.AutoShot.OnEmit, id, e, log and #C.db.entries or nil) end
   if C.Journal and C.Journal.Refresh then C.Journal.Refresh() end
   return e
 end

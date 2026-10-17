@@ -157,6 +157,42 @@ function handlers.MS(sender, f, channel)
   end
 end
 
+-- v0.7.2 reunion: "RS" asks a trusted friend for milestones since a time; "RR" answers with at most 5 short lines
+-- built only from the same milestone kinds the friend already shares (respects their shareMilestones / shareFirsts).
+function SH.RequestSince(full, since)
+  if not C.set.shareEnabled then return false end
+  SH.Send("RS", { tostring(floor(since or 0)) }, norm(full)); return true
+end
+function SH.MilestonesSince(since)
+  local out, me = {}, C.charKey()
+  for i = #C.db.entries, 1, -1 do
+    local e = C.db.entries[i]
+    if (e.t or 0) <= since or #out >= 5 then break end
+    local group = SHARE_KIND[e.id]
+    if group and e.char == me and ((group == "milestones" and C.set.shareMilestones) or (group == "firsts" and C.set.shareFirsts)) then
+      local fmt = SHARED_TEXT[e.id]
+      local subj = e.boss or e.target or e.instance or e.newLevel or e.level or ""
+      if fmt then out[#out + 1] = format(fmt, "", tostring(subj)):gsub("^%s+", ""):gsub("^%l", string.upper) end
+    end
+  end
+  return out
+end
+function handlers.RS(sender, f)
+  if not (SH.IsTrusted(sender) and C.set.reunionShared) then return end
+  local since = tonumber(f[1]) or 0
+  local lines = SH.MilestonesSince(since)
+  local payload = {}
+  for i, l in ipairs(lines) do payload[i] = l:sub(1, 80) end
+  SH.Send("RR", { #payload, unpack(payload) }, sender)
+end
+function handlers.RR(sender, f)
+  if not SH.IsTrusted(sender) then return end
+  local n = math.min(5, tonumber(f[1]) or 0)
+  local lines = {}
+  for i = 1, n do if f[i + 1] and f[i + 1] ~= "" then lines[#lines + 1] = f[i + 1] end end
+  if C.Fellowship then C.Fellowship.OnReunionReply(sender, lines) end
+end
+
 C.On("CHAT_MSG_ADDON", function(prefix, msg, channel, sender)
   if prefix ~= PREFIX or not C.set.shareEnabled then return end
   msg, sender = C.S(msg), C.S(sender)

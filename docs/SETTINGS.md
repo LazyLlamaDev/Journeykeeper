@@ -120,6 +120,9 @@ Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated f
 | Continent sketch pages | toggle | true |  |  |
 | Use the real in-game continent map behind the journey path | toggle | true |  | Reads Blizzard map tiles via C_Map onto the journal page. Falls back to the drawn parchment map. |
 | Draw my path on the world map | toggle | true |  | Uses the ghost-trail samples you already record. |
+| 'Your journey so far' replay on the Journey map | toggle | true |  | Play / pause / speed buttons on the map walk through your memories in order, switching continents as needed. |
+| Replay shows | cycle | current | current, all | current = this character only; all = every character of your warband, interleaved by date. |
+| Replay speed | cycle | 1 | 1, 2, 4 | Memories per ~1.5 seconds. |
 
 ## Death Reports
 
@@ -203,6 +206,25 @@ Open with `/jkp config` (or Esc > Options > AddOns > Journeykeeper). Generated f
 | Echo when I group again with someone I ran a dungeon or killed a boss with | toggle | true |  |  |
 | Forget fellows not seen for (days, 0 = never) | slider | 0 | 0 - 730 (step 30) | 0 keeps everyone. A snapshot is taken before anyone is removed. |
 | Never record these names (comma separated) | input |  |  | e.g. 'Bob, Alice-Realm'. A name without realm matches every realm. |
+| Fellowship lines in player tooltips (runs together, first met) | toggle | true |  | Only for people in your Fellowship. Excluded and archived people never show. |
+| Memory hint on tooltips of bosses you defeated before | toggle | true |  | e.g. 'You first defeated Hogger on 12 Oct 2026'. Matches by name from your boss-kill memories. |
+| Reunion echo after a long time apart | toggle | true |  | When you group again with a fellow after the gap below: what happened on your side since you last played together (levels, places, dungeons, bosses). Replaces the normal fellowship echo, never both. |
+| Reunion after (days apart) | slider | 3 | 1 - 60 (step 1) |  |
+| Include a trusted friend's milestones in the reunion (needs friend sharing) | toggle | true |  | Only with trusted friends who also run Journeykeeper with sharing on. Asks for at most 5 milestone lines since your last time together; nothing else is exchanged. |
+
+## Auto Screenshots
+
+| Setting | Type | Default | Range / values | Notes |
+|---|---|---|---|---|
+| Take a screenshot at big moments (master switch) | toggle | true |  | Uses the game's normal screenshot (saved in your Screenshots folder as WoWScrnShot_MMDDYY_HHMMSS). The memory remembers the file name. |
+| First kill of a boss | toggle | true |  |  |
+| First completion of a dungeon | toggle | true |  |  |
+| Level milestones | toggle | true |  |  |
+| Reunion with a fellow | toggle | true |  |  |
+| Achievements | toggle | false |  |  |
+| Delay after the moment (seconds) | slider | 1.5 | 0.5 - 5 (step 0.5) | Gives the echo popup time to appear (or to stay out of the picture, see below). |
+| Hide the Journeykeeper popup in the screenshot | toggle | false |  |  |
+| At most one automatic screenshot every (seconds) | slider | 60 | 10 - 600 (step 10) |  |
 
 ## Addon Compartment
 

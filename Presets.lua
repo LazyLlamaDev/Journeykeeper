@@ -16,7 +16,7 @@ P.DESC = {
 -- toasts that stay toasts in Essentials; every other toast is logged quietly to the journal
 local MAJOR = {}
 for _, id in ipairs({ "zone_first_account", "echo_revisit", "death_spot_echo", "boss_first_kill", "dungeon_enter_first", "raid_first", "loot_first_epic",
-  "loot_first_legendary", "mount_first", "friend_milestone", "shared_echo", "fellow_echo", "level_milestone", "birthday", "family_first_boss", "thread_return" }) do MAJOR[id] = true end
+  "loot_first_legendary", "mount_first", "friend_milestone", "shared_echo", "fellow_echo", "fellow_reunion", "level_milestone", "birthday", "family_first_boss", "thread_return" }) do MAJOR[id] = true end
 local ESS_OFF = { sub_first_char = true, sub_first_account = true, quest_accept = true, quest_abandon = true, rest_area_first = true, rare_seen = true,
   recipe_learn = true, spell_learn = true, duel = true, pvp_kill = true, ah_first_sale = true, equip_upgrade = true, boss_wipe = true }
 local CHRON_SKIP = { ghost_trail = true } -- has its own heavier switch (ghostTrail)
