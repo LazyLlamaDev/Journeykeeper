@@ -54,8 +54,8 @@ Everything can be switched off or tuned: what gets tracked, how often echoes app
 | <img src="docs/images/07_settings_categories.jpg" alt="Settings categories"><br><sub>Settings categories</sub> | <img src="docs/images/08_data_backups.jpg" alt="Data & Backups"><br><sub>Data & Backups</sub> |
 
 ## Install
+- **CurseForge app:** search for Journeykeeper and choose your WoW Forever install.
 - **Wago App:** search for Journeykeeper and choose your WoW Forever install.
-- **CurseForge:** install from the CurseForge app or website (see the FAQ if the app doesn't find your Forever client).
 - **Manual:** unzip the download so that **both** the `Journeykeeper` and `Journeykeeper_Vault` folders land in `World of Warcraft\_classic_beta_\Interface\AddOns`.
 
 Then log in and type `/jkp`.
@@ -79,10 +79,7 @@ Then log in and type `/jkp`.
 - Bugs & ideas: [GitHub Issues](https://github.com/LazyLlamaDev/Journeykeeper/issues). Please include your addon version and any Lua error (BugSack/BugGrabber help).
 
 ## FAQ
-**Journeykeeper not showing in the CurseForge app?**
-The CurseForge app doesn't reliably detect the WoW Forever beta client yet. Two easy options:
-- Use the **Wago App** and choose your WoW Forever install.
-- Or install it manually: unzip the download so that **both** the `Journeykeeper` and `Journeykeeper_Vault` folders land in `World of Warcraft\_classic_beta_\Interface\AddOns`.
+**Journeykeeper not showing in the CurseForge app?** Update the CurseForge app and pick your WoW Forever install.
 
 **Was AI used?** Yes. Journeykeeper is my idea and design: a journal that keeps memories across your characters and years in WoW Forever. I used AI tools to help write code, text and some artwork. I test every feature in-game myself and decide what ships.
 
