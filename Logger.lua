@@ -268,16 +268,17 @@ C.On("DUEL_REQUESTED", function(name) local n = S(name); C.Emit("duel", format("
 
 ---------------------------------------------------------------- Quests
 local accepted = {}
-C.On("QUEST_ACCEPTED", function(q)
-  accepted[q] = S(C_QuestLog.GetTitleForQuestID(q))
+C.On("QUEST_ACCEPTED", function(a, b)
+  local q = C.Compat.AcceptedQuestID(a, b)
+  accepted[q] = S(C.Compat.QuestTitle(q))
   C.Emit("quest_accept", format("%s took up \"%s\".", short(), accepted[q] or ("quest " .. q)), { q = q })
 end)
 local turnedIn = {}
 C.On("QUEST_TURNED_IN", function(q)
   turnedIn[q] = true
-  local title = S(C_QuestLog.GetTitleForQuestID(q)) or accepted[q] or ("quest " .. q)
+  local title = S(C.Compat.QuestTitle(q)) or accepted[q] or ("quest " .. q)
   local story
-  if C_QuestLog.IsQuestCampaign then story = S(C_QuestLog.IsQuestCampaign(q)) and "story" end
+  if C_QuestLog and C_QuestLog.IsQuestCampaign then story = S(C_QuestLog.IsQuestCampaign(q)) and "story" end
   if C_QuestLine and C_QuestLine.GetQuestLineInfo then
     local ok, info = pcall(C_QuestLine.GetQuestLineInfo, q)
     if ok and info and S(info.questLineName) then story = info.questLineName end
@@ -309,8 +310,7 @@ C.On("PLAYER_LEVEL_UP", function(level)
   end
 end)
 local function spellLearned(spellID)
-  local info = C_Spell and C_Spell.GetSpellInfo and C_Spell.GetSpellInfo(spellID)
-  local name = info and S(info.name) or (GetSpellInfo and S(GetSpellInfo(spellID)))
+  local name = S(C.Compat.SpellName(spellID))
   if name then C.Emit("spell_learn", format("%s learned %s.", short(), name), { spell = spellID }) end
 end
 C.On("LEARNED_SPELL_IN_SKILL_LINE", spellLearned)
@@ -324,6 +324,7 @@ C.On("CHAT_MSG_COMBAT_FACTION_CHANGE", function(msg)
   if std and fac then C.Emit("rep_tier", format("%s is now %s with %s.", short(), std, fac), { faction = fac, standing = std }, { title = std .. ": " .. fac }) end
 end)
 C.On("ACHIEVEMENT_EARNED", function(id)
+  if not GetAchievementInfo then return end
   local _, name = GetAchievementInfo(id)
   name = S(name)
   if name then C.Emit("achievement", format("%s earned the achievement \"%s\".", short(), name), { ach = id }, { title = "Achievement", force = true }) end
@@ -433,10 +434,9 @@ C.On("NEW_TOY_ADDED", function(item) local n = itemInfo(item); C.Emit("toy_new",
 
 ---------------------------------------------------------------- Professions
 C.On("SKILL_LINES_CHANGED", function()
-  if not GetProfessions then return end
-  for _, idx in ipairs({ GetProfessions() }) do
-    if idx then
-      local name, _, rank = GetProfessionInfo(idx)
+  for _, pr in ipairs(C.Compat.Professions()) do -- GetProfessions() or the Classic skill list
+    do
+      local name, rank = pr.name, pr.rank
       if name and once("prof" .. name) then C.Emit("prof_learn", format("%s took up %s.", short(), name), { prof = name }, { title = "New profession" }) end
       for _, m in ipairs({ 75, 150, 225, 300 }) do
         if name and rank and rank >= m and once("prof" .. name .. m) then C.Emit("prof_milestone", format("%s reached %d in %s.", short(), m, name), { prof = name }) end
@@ -445,8 +445,7 @@ C.On("SKILL_LINES_CHANGED", function()
   end
 end)
 C.On("NEW_RECIPE_LEARNED", function(id)
-  local info = C_Spell and C_Spell.GetSpellInfo and C_Spell.GetSpellInfo(id)
-  C.Emit("recipe_learn", format("%s learned the recipe %s.", short(), info and S(info.name) or "?"))
+  C.Emit("recipe_learn", format("%s learned the recipe %s.", short(), S(C.Compat.SpellName(id)) or "?"))
 end)
 
 ---------------------------------------------------------------- Economy

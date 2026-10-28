@@ -1,7 +1,7 @@
-## Interface: 16001
+## Interface: 120105, 120107, 50504, 38002, 20506, 11509, 16001
 ## Title: Journeykeeper Vault
 ## Notes: Second, independent backup file for Journeykeeper. Contains no code that runs; keep it enabled.
 ## Author: LazyLlama
-## Version: 1.0.0
+## Version: 0.8.0
 ## SavedVariables: JourneykeeperVaultDB
 Journeykeeper_Vault.lua

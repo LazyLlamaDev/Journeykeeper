@@ -41,8 +41,7 @@ local function topSpell(sessionType)
     if a and id and (not best or a > best) then best, bestID = a, id end
   end
   if not best then return nil end
-  local info = C_Spell and C_Spell.GetSpellInfo and C_Spell.GetSpellInfo(bestID)
-  return { amount = best, spellID = bestID, name = info and S(info.name) or ("spell " .. bestID) }
+  return { amount = best, spellID = bestID, name = S(C.Compat.SpellName(bestID)) or ("spell " .. bestID) }
 end
 
 local function short(n)

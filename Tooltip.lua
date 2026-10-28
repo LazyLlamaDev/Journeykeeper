@@ -1,4 +1,4 @@
--- Tooltip lines on player units via TooltipDataProcessor (no frame hooks).
+-- Tooltip lines on player units via TooltipDataProcessor (or OnTooltipSetUnit on older clients, see Compat.lua).
 local _, C = ...
 local S = C.S
 local function ago(t) return t and C.dateStr(t) or "?" end
@@ -46,10 +46,9 @@ function TT.BossLine(name)
   return format("|cffd8b26aJourneykeeper:|r |cffbba27aYou first defeated %s on %s%s.|r", name, C.dateStr(e.t), (e.char and e.char ~= C.charKey()) and (" (as " .. e.char:match("^[^-]+") .. ")") or "")
 end
 C.Init(function()
-  if not (TooltipDataProcessor and Enum.TooltipDataType) then return end
-  TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(tt, data)
+  -- v0.8.0: TooltipDataProcessor or the classic OnTooltipSetUnit hook (C.Compat picks what the client has)
+  C.Compat.OnUnitTooltip(function(tt, guid)
     if tt ~= GameTooltip then return end
-    local guid = data and S(data.guid)
     if not guid then return end
     if guid:find("^Creature") or guid:find("^Vehicle") then
       local ok, name = pcall(function() return S((tt:GetUnit())) end)

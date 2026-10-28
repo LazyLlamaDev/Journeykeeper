@@ -1,10 +1,10 @@
-## Interface: 16001
+## Interface: 120105, 120107, 50504, 38002, 20506, 11509, 16001
 ## Title: Journeykeeper — Echoes of Your Journey
 ## Notes: Echoes of Your Journey - remembers your firsts, deaths, allies and stories, and echoes them back. Local only.
 ## X-Website: https://github.com/LazyLlamaDev/Journeykeeper
 ## X-License: All Rights Reserved
 ## Author: LazyLlama
-## Version: 0.7.2
+## Version: 0.8.0
 ## SavedVariables: JourneykeeperDB, JourneykeeperBackupDB
 ## OptionalDeps: Journeykeeper_Vault
 ## SavedVariablesPerCharacter: JourneykeeperCharDB
@@ -14,6 +14,7 @@
 ## AddonCompartmentFuncOnLeave: Journeykeeper_OnAddonCompartmentLeave
 Registry.lua
 Core.lua
+Compat.lua
 Serialize.lua
 Data.lua
 Options.lua

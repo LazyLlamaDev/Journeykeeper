@@ -1,6 +1,6 @@
 # Journeykeeper — Echoes of Your Journey
 
-**Your journey remembers you.** Journeykeeper is a free memory journal for WoW Forever. It quietly records your firsts, your fights and the places that mattered, keeps them in a book you can read in-game, and gently **echoes** them back when you return. All data stays on your PC; nothing is sent to anyone unless you turn on friend sharing.
+**Your journey remembers you.** Journeykeeper is a free memory journal for WoW Forever, Retail and Classic. It quietly records your firsts, your fights and the places that mattered, keeps them in a book you can read in-game, and gently **echoes** them back when you return. All data stays on your PC; nothing is sent to anyone unless you turn on friend sharing.
 
 ![Journeykeeper — Echoes of Your Journey](docs/images/00_hero.jpg)
 
@@ -16,7 +16,7 @@ Short memory reminders when you come back somewhere that mattered: "You first wa
 Your first zone, dungeon, boss kill, rare, mount, epic and level milestones, plus your whole journey as a clean, filterable timeline. Fights & Records (best DPS, longest fight, boss kills) come from Blizzard's built-in damage meter.
 
 ### 🗺️ Journey map
-A real, zoomable Kalimdor and Eastern Kingdoms map with your road through the world and your memories on it. Echoes can also show on the world map.
+A real, zoomable Kalimdor and Eastern Kingdoms map with your road through the world and your memories on it. The **Other lands** tab shows every other continent you have reached, such as Outland, Northrend or Pandaria. Echoes can also show on the world map.
 
 **Your journey so far:** press Play on the map and your memories appear one by one, in order, each with a short caption. The map switches continent when your road does. Pick a speed (1x, 2x or 4x) and choose this character or your whole warband.
 
@@ -53,10 +53,21 @@ Everything can be switched off or tuned: what gets tracked, how often echoes app
 | <img src="docs/images/05_echo_toast_brill.jpg" alt="Echo toast in Brill"><br><sub>Echo toast in Brill</sub> | <img src="docs/images/06_world_map_echo.jpg" alt="Echoes on the world map"><br><sub>Echoes on the world map</sub> |
 | <img src="docs/images/07_settings_categories.jpg" alt="Settings categories"><br><sub>Settings categories</sub> | <img src="docs/images/08_data_backups.jpg" alt="Data & Backups"><br><sub>Data & Backups</sub> |
 
+## Supported game versions
+| Game version | Supported |
+|---|---|
+| WoW Forever | ✔ |
+| Retail (Midnight) | ✔ |
+| Mists of Pandaria Classic | ✔ |
+| Classic Anniversary (Burning Crusade) | ✔ |
+| Classic Era, Hardcore and Season of Discovery | ✔ |
+
+The same download works everywhere. A few features depend on what your game offers: fight records use the built-in damage meter (Retail and WoW Forever), and achievement, collection and story-quest echoes only appear where the game has them. Everything else works the same on every version.
+
 ## Install
-- **CurseForge app:** search for Journeykeeper and choose your WoW Forever install.
-- **Wago App:** search for Journeykeeper and choose your WoW Forever install.
-- **Manual:** unzip the download so that **both** the `Journeykeeper` and `Journeykeeper_Vault` folders land in `World of Warcraft\_classic_beta_\Interface\AddOns`.
+- **CurseForge app:** search for Journeykeeper and choose the game version you play.
+- **Wago App:** search for Journeykeeper and choose the game version you play.
+- **Manual:** unzip the download so that **both** the `Journeykeeper` and `Journeykeeper_Vault` folders land in the `Interface\AddOns` folder of your game version, for example `World of Warcraft\_retail_\Interface\AddOns`, `_classic_`, `_classic_era_`, `_anniversary_` or your WoW Forever folder.
 
 Then log in and type `/jkp`.
 
@@ -79,7 +90,9 @@ Then log in and type `/jkp`.
 - Bugs & ideas: [GitHub Issues](https://github.com/LazyLlamaDev/Journeykeeper/issues). Please include your addon version and any Lua error (BugSack/BugGrabber help).
 
 ## FAQ
-**Journeykeeper not showing in the CurseForge app?** Update the CurseForge app and pick your WoW Forever install.
+**Journeykeeper not showing in the CurseForge app?** Update the CurseForge app and pick the game version you play.
+
+**Does my Forever journal carry over to Retail or Classic?** Each game version keeps its own saved data in its own folder, so every version starts its own journal. Nothing is shared or overwritten between them.
 
 **Was AI used?** Yes. Journeykeeper is my idea and design: a journal that keeps memories across your characters and years in WoW Forever. I used AI tools to help write code, text and some artwork. I test every feature in-game myself and decide what ships.
 

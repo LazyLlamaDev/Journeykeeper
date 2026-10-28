@@ -134,9 +134,9 @@ function DP.Build(parentCategory)
   end
   panel:SetScript("OnShow", function() DP.BuildContent(); detailFS:SetText(""); relayout(); C_Timer.After(0, relayout) end)
   panel:SetScript("OnSizeChanged", function() relayout() end)
-  if parentCategory and Settings and Settings.RegisterCanvasLayoutSubcategory then sub = Settings.RegisterCanvasLayoutSubcategory(parentCategory, panel, panel.name); DP.category = sub end
+  if parentCategory then sub = C.Compat.RegisterPanel(panel, parentCategory); DP.category = sub end
 end
-function DP.Open() if sub and Settings.OpenToCategory then Settings.OpenToCategory(sub:GetID()) else C.Print("Settings API unavailable") end end
+function DP.Open() if not C.Compat.OpenPanel(sub) then C.Print("Settings API unavailable") end end
 
 function DP.Command(cmd, rest)
   if cmd == "backup" then local s, e = D.Snapshot("manual"); C.Print(s and "backup taken" or e)

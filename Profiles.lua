@@ -64,7 +64,7 @@ function PR.Show(name)
   local p = PR.Find(name)
   if not p then C.Print("no one by that name in your journal yet"); return end
   if not card then
-    card = CreateFrame("Frame", "JourneykeeperProfileCard", UIParent, "BackdropTemplate")
+    card = CreateFrame("Frame", "JourneykeeperProfileCard", UIParent, C.Compat.BACKDROP)
     card:SetSize(320, 300); card:SetPoint("CENTER", 300, 0); card:SetFrameStrata("DIALOG"); card:EnableMouse(true); card:SetMovable(true)
     card:RegisterForDrag("LeftButton"); card:SetScript("OnDragStart", card.StartMoving); card:SetScript("OnDragStop", card.StopMovingOrSizing)
     card.bg = card:CreateTexture(nil, "BACKGROUND"); card.bg:SetAllPoints(); card.bg:SetTexture(C.MEDIA .. "card")
@@ -114,11 +114,10 @@ end
 
 C.Init(function()
   C.Journal.PROVIDERS.Allies = { enabled = function() return C.set.profiles end, build = PR.Build }
-  if TooltipDataProcessor and Enum and Enum.TooltipDataType then
-    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(tt)
+  do
+    C.Compat.OnUnitTooltip(function(tt, guid)
       if not (C.set.profiles and C.set.profileTooltip) or tt ~= GameTooltip then return end
-      local _, unit = tt:GetUnit(); if not unit then return end
-      local guid = S(UnitGUID(unit)); local p = guid and C.db.players[guid]
+      local p = guid and C.db.players[guid]
       if p and ((p.rating or 0) > 0 or (p.tags and #p.tags > 0)) then
         tt:AddLine(format("|cffd8b26aJourneykeeper:|r %s%s", (p.rating or 0) > 0 and string.rep("*", p.rating) .. " " or "", table.concat(p.tags or {}, ", ")))
       end

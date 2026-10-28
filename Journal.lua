@@ -857,12 +857,12 @@ local function getClip(p)
   -- continent switcher (top-left), styled like the world map's continent picker
   clip.tabs = {}
   for i, c in ipairs(C.Journey and C.Journey.CONTS or {}) do
-    local bt = CreateFrame("Button", nil, clip); bt:SetSize(i == 1 and 70 or 112, 18); bt:SetFrameLevel(clip:GetFrameLevel() + 20)
-    bt:SetPoint("TOPLEFT", clip, "TOPLEFT", i == 1 and 4 or 78, -2)
+    local bt = CreateFrame("Button", nil, clip); bt:SetSize(i == 1 and 70 or i == 2 and 112 or 84, 18); bt:SetFrameLevel(clip:GetFrameLevel() + 20)
+    bt:SetPoint("TOPLEFT", clip, "TOPLEFT", i == 1 and 4 or i == 2 and 78 or 194, -2)
     bt.bg = bt:CreateTexture(nil, "BACKGROUND"); bt.bg:SetAllPoints()
     bt.fs = bt:CreateFontString(nil, "OVERLAY"); bt.fs:SetFont(FONT_HEAD, 12, ""); bt.fs:SetPoint("CENTER"); bt.fs:SetText(c.name)
     bt.id = c.id
-    bt:SetScript("OnClick", function() C.Journey.SetCont(c.id) end)
+    bt:SetScript("OnClick", function() if c.id == "other" then C.Journey.NextOther() else C.Journey.SetCont(c.id) end end)
     clip.tabs[i] = bt
   end
   clip.zlabel = clip:CreateFontString(nil, "OVERLAY"); clip.zlabel:SetFont(FONT_BODY, 10, ""); clip.zlabel:SetPoint("TOPRIGHT", clip, "TOPRIGHT", -72, -5); clip.zlabel:SetTextColor(1, 0.9, 0.7)
@@ -897,7 +897,7 @@ function J.DrawSketch(p, b)
   clip.W, clip.H = W, H
   for _, bt in ipairs(clip.tabs or {}) do
     bt:SetShown(b.switcher and true or false)
-    local on = bt.id == b.contID
+    local on = bt.id == b.contID or (bt.id == "other" and b.contID ~= nil and C.Journey and not C.Journey.IsCore(b.contID))
     bt.bg:SetColorTexture(on and 0.45 or 0.2, on and 0.12 or 0.13, on and 0.06 or 0.06, on and 0.85 or 0.55)
     bt.fs:SetTextColor(on and 1 or 0.85, on and 0.92 or 0.75, on and 0.7 or 0.5)
   end
@@ -1036,7 +1036,7 @@ function J.ShowDetail(b, anchor)
   local ent = b.entries and b.entries[1] and C.db.entries[b.entries[1]]
   if b.echo and ent and ent.text then body = body .. "\n\n|cffb0a080Remembered moment:|r " .. clean(ent.text) end
   local shotLine = C.AutoShot and C.AutoShot.Line(ent)
-  if shotLine then body = body .. "\n\n|cffb0a080" .. shotLine .. "|r\nFind it in your WoW folder under _classic_beta_ (or your game folder) \\ Screenshots." end
+  if shotLine then body = body .. "\n\n|cffb0a080" .. shotLine .. "|r\nFind it in your WoW folder, inside the folder of your game version (for example _retail_, _classic_, _classic_era_ or _anniversary_), under Screenshots." end
   det.text:SetText(body)
   local linked = b.entries and #b.entries > 0
   det.open:SetShown(linked); det.more:SetShown(linked)

@@ -6,6 +6,7 @@ local function ms(v) return v and format("%.3f ms", v) or "n/a" end
 
 function P.Lines()
   local out = {}
+  do local v, b, i = C.Compat.ClientInfo(); out[#out + 1] = format("Client: %s (build %s, interface %d)", tostring(v), tostring(b), i) end
   if C.Has("UpdateAddOnMemoryUsage") then
     C.API("UpdateAddOnMemoryUsage") -- walks every addon; only on demand
     local a, v = C.API("GetAddOnMemoryUsage", "Journeykeeper"), C.API("GetAddOnMemoryUsage", "Journeykeeper_Vault")

@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.8.0
+- **Runs on every WoW version.** One download now works on WoW Forever, Retail (Midnight), Mists of Pandaria Classic, Classic Anniversary (Burning Crusade) and Classic Era (including Hardcore and Season of Discovery). Each game picks its own toc file; WoW Forever is unchanged (Interface 16001).
+- **Journey map beyond the old world.** Kalimdor and the Eastern Kingdoms use the right map for your game version, and a new **Other lands** tab steps through every other continent your characters have reached (Outland, Northrend, Pandaria, the Dragon Isles, Khaz Algar ...), drawn with the game's own map art.
+- **Quiet fallbacks instead of errors.** Where a game version lacks something, that feature switches itself off: fight records need the built-in damage meter (Retail and Forever), achievements, mount, pet and toy echoes and story-quest tags appear only where the game has them. On Classic clients professions come from the skill list, quest names from the quest log and player tooltips use the classic tooltip hook; Settings open in the classic Interface Options where the new Settings panel is missing.
+- `/jkp perf` now also shows your game version and interface number (handy for bug reports).
+- Data: no schema change. Every game version keeps its own saved data in its own folder, so your Forever journal is untouched.
+- New files (Compat.lua and the per-version toc files): needs a full client restart once.
+
 ## v0.7.2
 - **Fellowship tooltips.** Hovering a player from your Fellowship adds two quiet lines: runs together and the last one ("3 runs together · last: Deadmines, Oct 2026") and where you first met. Excluded and archived people never show. Bosses you have defeated before get a memory hint ("You first defeated Hogger on 12 Oct 2026"). Both can be switched off (Settings > Fellowship).
 - **Auto screenshots at big moments.** A normal game screenshot a moment after a first boss kill, a first dungeon completion, a level milestone or a reunion (achievements optional). The memory remembers the file name (WoWScrnShot_MMDDYY_HHMMSS) and the journal shows "Screenshot taken 21:04 (Screenshots\\...)"; the Journey chapter lists them under Snapshots. Settings: master switch, each moment, delay, at most one every 60 s, and an option to keep the Journeykeeper popup out of the picture. Never during photo mode.

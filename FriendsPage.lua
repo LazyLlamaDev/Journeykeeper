@@ -198,11 +198,11 @@ function FP.Build(parentCategory)
   panel:SetScript("OnShow", function() FP.BuildContent(); relayout(); C_Timer.After(0, relayout) end)
   panel:SetScript("OnSizeChanged", function() relayout() end)
   C.Share.OnPeersChanged = function() if panel:IsShown() then FP.Refresh() end end
-  if parentCategory and Settings and Settings.RegisterCanvasLayoutSubcategory then
-    sub = Settings.RegisterCanvasLayoutSubcategory(parentCategory, panel, panel.name)
+  if parentCategory then
+    sub = C.Compat.RegisterPanel(panel, parentCategory)
     FP.category = sub
   end
 end
 function FP.Open()
-  if sub and Settings.OpenToCategory then Settings.OpenToCategory(sub:GetID()) else C.Print("Settings API unavailable") end
+  if not C.Compat.OpenPanel(sub) then C.Print("Settings API unavailable") end
 end

@@ -41,7 +41,7 @@ function R.Update()
   local cont = block.contID
   if cur and cur.cont then cont = cur.cont end
   if not cont then for i = 1, #steps do if steps[i].cont then cont = steps[i].cont; break end end end
-  cont = cont or 1414
+  cont = cont or (C.Journey and C.Journey.CONTS[1].id) or 1414
   local pts = {}
   for i = idx, 1, -1 do
     local s = steps[i]

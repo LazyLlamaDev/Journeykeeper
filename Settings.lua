@@ -162,10 +162,7 @@ local function build()
   end
   C.SettingsBuildContent = function() if not built then built = true; buildContent() end end
   panel:SetScript("OnShow", function() C.SettingsBuildContent(); refreshAll() end)
-  if Settings and Settings.RegisterCanvasLayoutCategory then
-    category = Settings.RegisterCanvasLayoutCategory(panel, panel.name)
-    Settings.RegisterAddOnCategory(category)
-  end
+  category = C.Compat.RegisterPanel(panel) -- Settings API, or the legacy Interface Options list
   C.SettingsCategory = category
   if C.FriendsPage then C.FriendsPage.Build(category) end
   if C.DataPage then C.DataPage.Build(category) end
@@ -173,7 +170,6 @@ end
 C.Init(build)
 
 function C.OpenSettings()
-  if category and Settings.OpenToCategory then Settings.OpenToCategory(category:GetID())
-  else C.Print("Settings API unavailable") end
+  if not C.Compat.OpenPanel(category) then C.Print("Settings API unavailable") end
 end
 C.SettingsRefresh = function() if refreshAll then refreshAll() end end

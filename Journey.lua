@@ -38,6 +38,7 @@ end
 -- Stylized continent art (media/map_*.tga, drawn by tools/make_maps.py in the same 0..1 continent space
 -- that C_Map.GetMapRectOnMap returns: x right, y down). Classic/Forever uiMapIDs: 1414 Kalimdor, 1415 Eastern Kingdoms.
 function JY.MapArt(cont, cname)
+  if cont == 12 or cont == 13 then return nil end -- Retail continent space differs from the drawn art; real tiles are used there
   local n = (cname or ""):lower()
   if cont == 1414 or n:find("kalimdor") then return C.MEDIA .. "map_kalimdor" end
   if cont == 1415 or n:find("eastern") or n:find("östliche") or n:find("royaumes de l'est") then return C.MEDIA .. "map_eastern" end
@@ -64,7 +65,28 @@ function JY.MapTiles(id)
   return res or nil
 end
 
-JY.CONTS = { { id = 1414, name = "Kalimdor" }, { id = 1415, name = "Eastern Kingdoms" } }
+-- v0.8.0: the two core tabs get the client's own continent ids at login (1414/1415 Classic-era data, 12/13 Retail);
+-- the third tab cycles through every other continent your characters reached (Outland, Northrend, Pandaria, ...).
+JY.CONTS = { { id = 1414, name = "Kalimdor" }, { id = 1415, name = "Eastern Kingdoms" }, { id = "other", name = "Other lands" } }
+function JY.IsCore(id) return id == JY.CONTS[1].id or id == JY.CONTS[2].id end
+-- continents (other than the two core ones) reached by any character, in the order first reached
+function JY.OtherConts(stops)
+  local out, seen = {}, {}
+  local function add(map)
+    local pl = map and JY.Place(map)
+    if pl and pl.cont and not JY.IsCore(pl.cont) and not seen[pl.cont] then seen[pl.cont] = true; out[#out + 1] = pl.cont end
+  end
+  if stops then for _, st in ipairs(stops) do add(st.map) end
+  else for _, e in ipairs(C.db.entries) do if e.id == "zone_first_char" or e.id == "zone_first_account" then add(e.map) end end end
+  return out
+end
+function JY.NextOther()
+  local list = JY.OtherConts()
+  if #list == 0 then C.Print("no other continents on your journey yet - Kalimdor and the Eastern Kingdoms are the only lands so far"); return end
+  local cur, nxt = C.set.journeyCont, list[1]
+  for i, id in ipairs(list) do if id == cur then nxt = list[i % #list + 1] end end
+  JY.SetCont(nxt)
+end
 function JY.ContName(id)
   local info = C.API("C_Map.GetMapInfo", id)
   if info and info.name and info.name ~= "" then return info.name end
@@ -74,9 +96,10 @@ end
 -- remembered choice; else the continent of the most recent stop; else Kalimdor
 function JY.SelectedCont(stops)
   local sel = C.set.journeyCont
-  for _, c in ipairs(JY.CONTS) do if c.id == sel then return sel end end
-  for i = #(stops or {}), 1, -1 do local pl = JY.Place(stops[i].map); if pl then for _, c in ipairs(JY.CONTS) do if c.id == pl.cont then return pl.cont end end end end
-  return 1414
+  if type(sel) == "number" and JY.IsCore(sel) then return sel end
+  if type(sel) == "number" then for _, id in ipairs(JY.OtherConts(stops)) do if id == sel then return sel end end end
+  for i = #(stops or {}), 1, -1 do local pl = JY.Place(stops[i].map); if pl and pl.cont then return pl.cont end end
+  return JY.CONTS[1].id
 end
 function JY.SetCont(id) C.set.journeyCont = id; if C.Journal and C.Journal.Refresh then C.Journal.Refresh() end end
 
@@ -167,5 +190,7 @@ function JY.DrawOverlay(canvas, mapID, scale)
 end
 
 C.Init(function()
+  local k, e = C.Compat.ClassicContinents()
+  JY.CONTS[1].id, JY.CONTS[2].id = k, e
   C.Journal.PROVIDERS.Journey = { enabled = function() return C.set.journey end, build = JY.Build }
 end)

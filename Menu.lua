@@ -3,9 +3,9 @@ local _, C = ...
 local menu
 function C.Menu(anchor, items, title)
   if not menu then
-    menu = CreateFrame("Frame", "JourneykeeperMenu", UIParent, "BackdropTemplate")
+    menu = CreateFrame("Frame", "JourneykeeperMenu", UIParent, C.Compat.BACKDROP)
     menu:SetFrameStrata("TOOLTIP"); menu:SetClampedToScreen(true)
-    menu:SetBackdrop({ bgFile = C.MEDIA .. "toast_dark", edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12, insets = { left = 3, right = 3, top = 3, bottom = 3 } })
+    C.Compat.SetBackdrop(menu, { bgFile = C.MEDIA .. "toast_dark", edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12, insets = { left = 3, right = 3, top = 3, bottom = 3 } })
     menu.btns = {}
     menu.title = menu:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"); menu.title:SetPoint("TOPLEFT", 12, -8)
     menu:SetScript("OnUpdate", function(self, el)
