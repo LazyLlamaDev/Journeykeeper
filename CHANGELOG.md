@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.1
+- Checked against the new WoW Forever client build (1.60.1.70755); Interface stays 16001.
+- Releases now upload to CurseForge and Wago automatically.
+
 ## v0.8.0
 - **Runs on every WoW version.** One download now works on WoW Forever, Retail (Midnight), Mists of Pandaria Classic, Classic Anniversary (Burning Crusade) and Classic Era (including Hardcore and Season of Discovery). Each game picks its own toc file; WoW Forever is unchanged (Interface 16001).
 - **Journey map beyond the old world.** Kalimdor and the Eastern Kingdoms use the right map for your game version, and a new **Other lands** tab steps through every other continent your characters have reached (Outland, Northrend, Pandaria, the Dragon Isles, Khaz Algar ...), drawn with the game's own map art.

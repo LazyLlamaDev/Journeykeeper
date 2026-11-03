@@ -1,0 +1,8 @@
+package-as: Journeykeeper
+
+move-folders:
+  Journeykeeper/Journeykeeper_Vault: Journeykeeper_Vault
+
+ignore:
+  - README.md
+  - docs

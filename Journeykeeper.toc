@@ -2,9 +2,11 @@
 ## Title: Journeykeeper — Echoes of Your Journey
 ## Notes: Echoes of Your Journey - remembers your firsts, deaths, allies and stories, and echoes them back. Local only.
 ## X-Website: https://github.com/LazyLlamaDev/Journeykeeper
+## X-Curse-Project-ID: 1747237
+## X-Wago-ID: n6VYAZNd
 ## X-License: All Rights Reserved
 ## Author: LazyLlama
-## Version: 0.8.0
+## Version: 0.8.1
 ## SavedVariables: JourneykeeperDB, JourneykeeperBackupDB
 ## OptionalDeps: Journeykeeper_Vault
 ## SavedVariablesPerCharacter: JourneykeeperCharDB

@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to publish (blank = latest)
+        required: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+      # Manual runs re-publish an existing tag, whose GitHub release already exists.
+      GITHUB_OAUTH: ${{ github.event_name == 'push' && secrets.GITHUB_TOKEN || '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check out requested tag
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          [ -n "$TAG" ] || TAG=$(git tag --sort=-v:refname | head -1)
+          git checkout "$TAG"
+          # Older tags predate .pkgmeta; use the current one.
+          git checkout "$GITHUB_SHA" -- .pkgmeta
+
+      - uses: BigWigsMods/packager@v2
+        with:
+          args: -p 1747237 -a n6VYAZNd
