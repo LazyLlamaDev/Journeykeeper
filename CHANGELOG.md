@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.8.2
+- Checked against the new WoW Forever client build (1.60.1.70790); Interface stays 16001.
+
 ## v0.8.1
 - Checked against the new WoW Forever client build (1.60.1.70755); Interface stays 16001.
 - Releases now upload to CurseForge and Wago automatically.
