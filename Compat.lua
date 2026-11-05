@@ -60,14 +60,14 @@ function CP.OnUnitTooltip(fn)
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(tt, data)
       local guid = data and C.S(data.guid)
       local unit
-      if not guid and tt and tt.GetUnit then local ok, _, u = pcall(tt.GetUnit, tt); unit = ok and u or nil; guid = unit and C.S(UnitGUID(unit)) end
+      if not guid and tt and tt.GetUnit then local ok, _, u = pcall(tt.GetUnit, tt); unit = ok and C.S(u) or nil; guid = unit and C.S(UnitGUID(unit)) end
       runUnit(tt, guid, unit)
     end)
     hooked = true
   elseif GameTooltip and GameTooltip.HookScript and GameTooltip.HasScript and GameTooltip:HasScript("OnTooltipSetUnit") then
     GameTooltip:HookScript("OnTooltipSetUnit", function(tt)
       local ok, _, unit = pcall(tt.GetUnit, tt)
-      unit = ok and unit or nil
+      unit = ok and C.S(unit) or nil
       runUnit(tt, unit and C.S(UnitGUID(unit)), unit)
     end)
     hooked = true

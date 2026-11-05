@@ -2,6 +2,6 @@
 ## Title: Journeykeeper Vault
 ## Notes: Second, independent backup file for Journeykeeper. Contains no code that runs; keep it enabled.
 ## Author: LazyLlama
-## Version: 0.8.2
+## Version: 0.8.3
 ## SavedVariables: JourneykeeperVaultDB
 Journeykeeper_Vault.lua

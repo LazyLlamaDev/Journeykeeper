@@ -112,7 +112,8 @@ end)
 local cleuFrame
 function L.UpdateCombatLog()
   if not cleuFrame then cleuFrame = CreateFrame("Frame"); cleuFrame:SetScript("OnEvent", function() pcall(L.OnCLEU) end) end
-  if C.set.combatLog and CombatLogGetCurrentEventInfo then pcall(cleuFrame.RegisterEvent, cleuFrame, "COMBAT_LOG_EVENT_UNFILTERED")
+  -- clients with secret values forbid it outright (pcall can't stop ADDON_ACTION_FORBIDDEN), so don't try there
+  if C.set.combatLog and CombatLogGetCurrentEventInfo and not issecretvalue then pcall(cleuFrame.RegisterEvent, cleuFrame, "COMBAT_LOG_EVENT_UNFILTERED")
   else pcall(cleuFrame.UnregisterEvent, cleuFrame, "COMBAT_LOG_EVENT_UNFILTERED") end
 end
 C.Init(function() L.UpdateCombatLog() end)

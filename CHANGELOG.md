@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.3
+- Fixed a Lua error on WoW Forever when hovering units whose tooltip unit is hidden from addons ("UnitGUID ... Secret values are only allowed during untainted execution").
+- Fixed the ADDON_ACTION_FORBIDDEN error with the combat log option on: clients that hide combat data from addons don't allow the combat log, so the option now does nothing there and killer names come from your last hostile target.
+
 ## v0.8.2
 - Checked against the new WoW Forever client build (1.60.1.70790); Interface stays 16001.
 
