@@ -109,12 +109,14 @@ C.On("NAME_PLATE_UNIT_ADDED", function(unit)
 end)
 -- Combat log is opt-in: it is the busiest event in WoW (hundreds/s in groups) and Midnight-era clients restrict it
 -- for addons (registering can raise ADDON_ACTION_FORBIDDEN). Without it, killer names fall back to the last hostile target.
-local cleuFrame
+local cleuFrame, cleuOn
 function L.UpdateCombatLog()
   if not cleuFrame then cleuFrame = CreateFrame("Frame"); cleuFrame:SetScript("OnEvent", function() pcall(L.OnCLEU) end) end
   -- clients with secret values forbid it outright (pcall can't stop ADDON_ACTION_FORBIDDEN), so don't try there
-  if C.set.combatLog and CombatLogGetCurrentEventInfo and not issecretvalue then pcall(cleuFrame.RegisterEvent, cleuFrame, "COMBAT_LOG_EVENT_UNFILTERED")
-  else pcall(cleuFrame.UnregisterEvent, cleuFrame, "COMBAT_LOG_EVENT_UNFILTERED") end
+  -- unregistering is forbidden there too, so only undo a registration this addon actually made
+  local want = C.set.combatLog and CombatLogGetCurrentEventInfo and not issecretvalue
+  if want and not cleuOn then pcall(cleuFrame.RegisterEvent, cleuFrame, "COMBAT_LOG_EVENT_UNFILTERED"); cleuOn = true
+  elseif not want and cleuOn then pcall(cleuFrame.UnregisterEvent, cleuFrame, "COMBAT_LOG_EVENT_UNFILTERED"); cleuOn = false end
 end
 C.Init(function() L.UpdateCombatLog() end)
 local playerGUID
