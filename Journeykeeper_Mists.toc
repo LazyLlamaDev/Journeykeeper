@@ -6,7 +6,7 @@
 ## X-Wago-ID: n6VYAZNd
 ## X-License: All Rights Reserved
 ## Author: LazyLlama
-## Version: 0.8.3
+## Version: 0.8.4
 ## SavedVariables: JourneykeeperDB, JourneykeeperBackupDB
 ## OptionalDeps: Journeykeeper_Vault
 ## SavedVariablesPerCharacter: JourneykeeperCharDB
