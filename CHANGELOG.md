@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.8.5
+- Checked against the new WoW Forever client build (1.60.1.71139); Interface stays 16001.
+
 ## v0.8.4
 - Fixed the remaining ADDON_ACTION_FORBIDDEN error on WoW Forever with the combat log option on: the addon no longer tries to unregister the combat log there either.
 
